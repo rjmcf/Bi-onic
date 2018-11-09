@@ -12,9 +12,29 @@ class Controller():
 	def __init__(self, graph):
 		self.reservoir = 0
 		self.graph_handle = ControllerToGraph(graph)
+		self.affectors = []
 		
 	def update(self):
-		if pyxel.btn(pyxel.KEY_UP):
-			self.graph_handle.add_velocity(-0.1)
-		elif pyxel.btn(pyxel.KEY_DOWN):
-			self.graph_handle.add_velocity(0.1)
+		for index in range(len(self.affectors) -1, -1, -1):
+			affector = self.affectors[index]
+			self.graph_handle.add_velocity(affector.get_effect_for_this_tick())
+			if (affector.is_finished()):
+				self.affectors.remove(affector)
+				
+			
+class TimeDependentAffector():
+	def __init__(self, lifetime):
+		self.lifetime = lifetime
+		self.time_elapsed = 0
+		
+	def is_finished(self):
+		return self.time_elapsed > self.lifetime
+		
+	def get_effect_for_this_tick(self):
+		self.time_elapsed += 1
+		return self.f(self.time_elapsed)
+		
+	def f(self, time):
+		return 0
+		
+		
