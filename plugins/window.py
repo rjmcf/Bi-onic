@@ -30,6 +30,7 @@ class ChildWindow(Window):
 		self.width = parent_width * self.width_prop
 		self.height = parent_height * self.height_prop
 		self.draw_child()
+		# TODO doesn't work for graph
 		super(ChildWindow, self).draw()
 		
 	# Overriden to draw things for this specific child
