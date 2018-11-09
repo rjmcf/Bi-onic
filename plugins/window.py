@@ -29,12 +29,16 @@ class ChildWindow(Window):
 		self.y = parent_y + parent_height * self.y_prop
 		self.width = parent_width * self.width_prop
 		self.height = parent_height * self.height_prop
-		self.draw_child()
-		# TODO doesn't work for graph
+		self.draw_before_children()
 		super(ChildWindow, self).draw()
+		self.draw_after_children()
 		
-	# Overriden to draw things for this specific child
-	def draw_child(self):
+	# Overriden to draw things for this specific child before further children
+	def draw_before_children(self):
+		pass
+		
+	# Overriden to draw things for this specific child after further children
+	def draw_after_children(self):
 		pass
 		
 		

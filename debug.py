@@ -14,7 +14,7 @@ class PaletteViewer(DebugWindow):
 		pyxel.text(x + 16, y + 1, hex_col, 7)
 		pyxel.text(x + 3 - (col // 10) * 2, y + 2, "{}".format(col), 7 if col < 6 else 0)
 		
-	def draw_child(self):
+	def draw_before_children(self):
 		for i in range(16):
 			self.draw_palette(self.x + 2 + (i % 4) * 50, self.y + 4 + (i // 4) * 15, i)
 		
@@ -35,7 +35,7 @@ class ImageViewer(DebugWindow):
 		if pyxel.btnp(pyxel.KEY_ENTER):
 			pyxel.load(RESOURCE)
 		
-	def draw_child(self):
+	def draw_before_children(self):
 		pyxel.text(self.x,self.y,self.title, 7)
 		pyxel.text(self.x,self.y+6, "Showing from (" + str(self.source_top_left_x) + ", " + str(self.source_top_left_y) + ") to (" + str(self.source_top_left_x + self.source_sections_width) + ", " + str(self.source_top_left_y + self.source_sections_height) + ") of image bank " + str(self.img_bank), 7)
 		pyxel.text(self.x,self.y+12, "Using palette: {}".format(self.palette.name), 7)
@@ -61,7 +61,7 @@ class Tiler(DebugWindow):
 		if pyxel.btnp(pyxel.KEY_ENTER):
 			pyxel.load(RESOURCE)
 			
-	def draw_child(self):
+	def draw_before_children(self):
 		for col in range(self.repetitions_x):
 			for row in range(self.repititions_y):
 				pyxel.blt(self.x + self.display_top_left_x + col * self.source_width,

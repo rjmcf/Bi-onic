@@ -24,9 +24,9 @@ class Line():
 			
 		self.current_height += adjustment
 		
-		if self.current_height > self.high_border:
+		if self.current_height < -self.high_border:
 			self.line_state.state = LineState.STATE_HIGH
-		elif self.current_height < self.low_border:
+		elif self.current_height > -self.low_border:
 			self.line_state.state = LineState.STATE_LOW
 		else:
 			self.line_state.state = LineState.STATE_NORMAL
