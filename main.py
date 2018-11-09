@@ -1,5 +1,5 @@
-from game_window import Root, TestChild, GraphWindow
 import pyxel
+from game_window import Root, TestChild, GraphWindow
 
 class App:
 	def __init__(self):

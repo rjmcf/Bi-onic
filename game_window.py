@@ -1,9 +1,9 @@
 import pyxel
 from plugins.window import Window, ChildWindow
 from palette_settings import PALETTE
-from line import Line
+from line import Line, LineState
 from controller import Controller
-#from debug import ImageViewer, Tiler, PaletteViewer
+from debug import ImageViewer, Tiler, PaletteViewer
 
 RESOURCE = "assets/bionic_resources1.pyxel"
 		
@@ -12,6 +12,8 @@ class Root(Window):
 		super(Root, self).__init__(0,0, width, height)
 		self.caption = caption
 		self.palette = PALETTE
+		pyxel.init(self.width, self.height, caption=self.caption, palette=self.palette.get_palette())
+		pyxel.load(RESOURCE)
 		character_display_window = TestChild(0,0, 1,0.4, 3)
 		control_bars = TestChild(0.9,0.1, 0.05,0.8, 14)
 		character_display_window.child_windows = [control_bars]
@@ -21,9 +23,7 @@ class Root(Window):
 		#graph_area.child_windows = [danger_high, danger_low]
 		self.controller = Controller(graph_area)
 		self.child_windows = self.reserve_children = [character_display_window, graph_area]
-		self.debug_windows = []#ImageViewer(self.palette), Tiler(), PaletteViewer()]
-		pyxel.init(self.width, self.height, caption=self.caption, palette=self.palette.get_palette())
-		pyxel.load(RESOURCE)
+		self.debug_windows = [ImageViewer(self.palette), Tiler(), PaletteViewer()]
 		
 	def start(self):
 		pyxel.run(self.update, self.draw)
@@ -60,7 +60,8 @@ class GraphWindow(ChildWindow):
 	def __init__(self, x_prop, y_prop, width_prop, height_prop, colour):
 		super(GraphWindow, self).__init__(x_prop, y_prop, width_prop, height_prop)
 		self.colour = colour
-		self.line = Line(150, 12, 2)
+		self.line_state = LineState()
+		self.line = Line(150, -30,30, 0,0, self.line_state, 12, 2)
 		self.velocity = 0
 		
 	def update(self):
@@ -75,6 +76,17 @@ class GraphWindow(ChildWindow):
 		self.velocity += velocity_adjustment
 		
 	def draw_child(self):
+		if self.line_state.state == LineState.STATE_OFF:
+			self.colour = 0
+		elif self.line_state.state == LineState.STATE_NORMAL:
+			self.colour = 1
+		elif self.line_state.state == LineState.STATE_HIGH:
+			self.colour = 2
+		elif self.line_state.state == LineState.STATE_LOW:
+			self.colour = 3
+		else:
+			raise ValueError()
+			
 		pyxel.rect(self.x, self.y, self.x + self.width, self.y + self.height, self.colour)
 		# Draw danger zones
 		
