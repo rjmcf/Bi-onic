@@ -7,6 +7,8 @@ from graph import GraphWindow
 from character_display import CharacterDisplay
 from resource_settings import RESOURCE
 from debug import ImageViewer, Tiler, PaletteViewer
+
+DEBUG = True
 	
 class Root(Window):
 	def __init__(self, width, height, caption):
@@ -19,7 +21,8 @@ class Root(Window):
 		graph_area = GraphWindow()
 		self.controller = Controller(graph_area)
 		self.child_windows = self.reserve_children = [character_display_window, graph_area]
-		self.debug_windows = [ImageViewer(self.palette), Tiler(), PaletteViewer()]
+		if DEBUG:
+			self.debug_windows = [ImageViewer(self.palette), Tiler(), PaletteViewer()]
 		
 	def start(self):
 		pyxel.run(self.update, self.draw)
@@ -29,9 +32,10 @@ class Root(Window):
 		
 		self.controller.update()
 		
-		for debug_window in self.debug_windows:
-			if pyxel.btnp(debug_window.toggle_key):
-				self.toggle_window(debug_window)
+		if DEBUG:
+			for debug_window in self.debug_windows:
+				if pyxel.btnp(debug_window.toggle_key):
+					self.toggle_window(debug_window)
 				
 	def toggle_window(self, window):
 		if window in self.child_windows:
