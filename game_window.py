@@ -2,7 +2,7 @@ import pyxel
 from plugins.window import Window, ChildWindow
 from palette_settings import PALETTE
 from line import Line
-from controller import Controller
+from controller import Controller, ControllerInterface
 from graph import GraphWindow
 from character_display import CharacterDisplay
 from resource_settings import RESOURCE
@@ -20,6 +20,7 @@ class Root(Window):
 		character_display_window = CharacterDisplay()
 		graph_area = GraphWindow()
 		self.controller = Controller(graph_area)
+		self.controller_interface = ControllerInterface(self.controller)
 		self.child_windows = self.reserve_children = [character_display_window, graph_area]
 		if DEBUG:
 			self.debug_windows = [ImageViewer(self.palette), Tiler(), PaletteViewer()]

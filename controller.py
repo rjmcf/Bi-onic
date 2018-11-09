@@ -21,6 +21,13 @@ class Controller():
 			if (affector.is_finished()):
 				self.affectors.remove(affector)
 				
+class ControllerInterface():
+	def __init__(self, controller):
+		self.controller = controller
+		
+	def add_affector(self, affector):
+		self.controller.affectors.append(affector)
+				
 			
 class TimeDependentAffector():
 	def __init__(self, lifetime):
