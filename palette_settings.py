@@ -36,6 +36,8 @@ character_palette = Palette("character")
 character_palette.c2 = 0x8b4226
 character_palette.c10 = 0xaa004d
 character_palette.c11 = 0xdd9060
-# CloudCall 8759ad
+
+test_palette = Palette("test")
+test_palette.c13 = 0x8759ad 
 
 PALETTE = game_palette

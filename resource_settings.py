@@ -1,0 +1,1 @@
+RESOURCE = "assets/bionic_resources1.pyxel"
