@@ -1,0 +1,50 @@
+import pyxel
+from plugins.window import ChildWindow
+from line import Line, LineState
+
+class TestChild(ChildWindow):
+	def __init__(self, x_prop, y_prop, width_prop, height_prop, colour):
+		super(TestChild, self).__init__(x_prop, y_prop, width_prop, height_prop)
+		self.colour = colour
+		
+	def draw_before_children(self):
+		pyxel.rect(self.x, self.y, self.x + self.width, self.y + self.height, self.colour)
+
+class GraphWindow(ChildWindow):
+	def __init__(self):
+		super(GraphWindow, self).__init__(0,0.4, 1,0.6)
+		self.colour = 6
+		self.line_state = LineState()
+		self.line = Line(150, -30,10, 0,0, self.line_state, 12, 2)
+		self.velocity = 0
+		self.danger_high = TestChild(0,0, 1,0.4, 9)
+		self.danger_low = TestChild(0,0.8, 1,0.2, 8)
+		self.child_windows = [self.danger_high, self.danger_low]
+		
+	def update(self):
+		super(GraphWindow, self).update()
+		
+		if pyxel.btnp(pyxel.KEY_ENTER):
+			self.line.toggle_started()
+			
+		self.line.update(self.velocity)
+		
+	def add_velocity(self, velocity_adjustment):
+		self.velocity += velocity_adjustment
+		
+	def draw_before_children(self):
+		pyxel.rect(self.x, self.y, self.x + self.width, self.y + self.height, self.colour)
+		
+	def draw_after_children(self):
+		if self.line_state.state == LineState.STATE_OFF:
+			self.colour = 0
+		elif self.line_state.state == LineState.STATE_NORMAL:
+			self.colour = 1
+		elif self.line_state.state == LineState.STATE_HIGH:
+			self.colour = 9
+		elif self.line_state.state == LineState.STATE_LOW:
+			self.colour = 8
+		else:
+			raise ValueError()
+		
+		self.line.draw(self.x + self.width//2, self.y + self.height//2)
