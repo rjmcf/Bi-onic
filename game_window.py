@@ -4,7 +4,8 @@ from palette_settings import PALETTE
 from line import Line
 from controller import Controller, ControllerInterface
 from graph import GraphWindow
-from character_display import CharacterDisplay
+from character_display import CharacterDisplay, CharacterControlInterface
+from player_controller import PlayerController
 from resource_settings import RESOURCE
 from debug import ImageViewer, Tiler, PaletteViewer
 
@@ -17,10 +18,12 @@ class Root(Window):
 		self.palette = PALETTE
 		pyxel.init(self.width, self.height, caption=self.caption, palette=self.palette.get_palette())
 		pyxel.load(RESOURCE)
-		character_display_window = CharacterDisplay()
 		graph_area = GraphWindow()
 		self.controller = Controller(graph_area)
 		self.controller_interface = ControllerInterface(self.controller)
+		character_display_window = CharacterDisplay(self.controller_interface)
+		self.character_control_interface = CharacterControlInterface(character_display_window)
+		self.player_controller = PlayerController(self.character_control_interface)
 		self.child_windows = self.reserve_children = [character_display_window, graph_area]
 		if DEBUG:
 			self.debug_windows = [ImageViewer(self.palette), Tiler(), PaletteViewer()]
@@ -31,6 +34,7 @@ class Root(Window):
 	def update(self):
 		super(Root, self).update()
 		
+		self.player_controller.update()
 		self.controller.update()
 		
 		if DEBUG:

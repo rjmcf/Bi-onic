@@ -24,7 +24,7 @@ class GraphWindow(ChildWindow):
 	def update(self):
 		super(GraphWindow, self).update()
 		
-		if pyxel.btnp(pyxel.KEY_ENTER):
+		if pyxel.btnp(pyxel.KEY_SPACE):
 			self.line.toggle_started()
 			
 		self.line.update(self.velocity)

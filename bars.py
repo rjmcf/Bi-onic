@@ -16,6 +16,9 @@ class FillableBar(ChildWindow):
 		self.percent_full = min(self.percent_full, 1)
 		self.percent_full = max(0, self.percent_full)
 		
+	def is_empty(self):
+		return self.percent_full == 0
+		
 	def draw_before_children(self):
 		pyxel.rect(self.x, self.y, self.x + self.width, self.y + self.height, self.back_colour)
 		if self.is_vertical:
