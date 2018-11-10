@@ -1,6 +1,7 @@
 import pyxel
 from plugins.window import DebugWindow
 from palette_settings import PALETTE
+from resource_settings import RESOURCE
 
 class PaletteViewer(DebugWindow):
 	def __init__(self):
