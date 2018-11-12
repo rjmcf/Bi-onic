@@ -1,6 +1,7 @@
 import pyxel
 from character_display import CharacterControlInterface
 
+# Used by the Player to have an effect on the graph, via the CharacterController
 class PlayerController():
 	def __init__(self, character_control_interface):
 		self.character_control_interface = character_control_interface

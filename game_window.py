@@ -9,13 +9,19 @@ from player_controller import PlayerController
 from resource_settings import RESOURCE
 from debug import ImageViewer, Tiler, PaletteViewer
 
+# Determines whether we will allow DEBUG screens to be shown
 DEBUG = True
 	
+# Currently owns the game as a whole, which boils down to setting up the layout and making
+# sure all the components have the data they require
+#TODO Refactor: separate out some responsibilities.
 class Root(Window):
 	def __init__(self, width, height, caption):
 		super(Root, self).__init__(0,0, width, height)
 		self.caption = caption
 		self.palette = PALETTE
+		# This line needs to come before any Pyxel imports are used, otherwise they can't 
+		# be imported
 		pyxel.init(self.width, self.height, caption=self.caption, palette=self.palette.get_palette())
 		pyxel.load(RESOURCE)
 		graph_area = GraphWindow()
@@ -24,6 +30,7 @@ class Root(Window):
 		character_display_window = CharacterDisplay(self.controller_interface)
 		self.character_control_interface = CharacterControlInterface(character_display_window)
 		self.player_controller = PlayerController(self.character_control_interface)
+		# Keep two copies of game windows, so we can switch away and back to them
 		self.child_windows = self.reserve_children = [character_display_window, graph_area]
 		if DEBUG:
 			self.debug_windows = [ImageViewer(self.palette), Tiler(), PaletteViewer()]

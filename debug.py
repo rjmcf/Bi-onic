@@ -1,8 +1,16 @@
 import pyxel
-from plugins.window import DebugWindow
+from plugins.window import ChildWindow
 from palette_settings import PALETTE
 from resource_settings import RESOURCE
 
+# The base for windows used for debugs. Defines a key the user can use to toggle to it
+class DebugWindow(ChildWindow):
+	def __init__(self, title, toggle_key):
+		super(DebugWindow, self).__init__(0,0, 1,1)
+		self.title = title
+		self.toggle_key = toggle_key
+
+# Simply shows the palette currently being used
 class PaletteViewer(DebugWindow):
 	def __init__(self):
 		super(PaletteViewer, self).__init__("Palette Viewer", pyxel.KEY_P)
@@ -18,7 +26,11 @@ class PaletteViewer(DebugWindow):
 	def draw_before_children(self):
 		for i in range(16):
 			self.draw_palette(self.x + 2 + (i % 4) * 50, self.y + 4 + (i // 4) * 15, i)
-		
+	
+# The editor can only display the default palette as far as I know. When editing an image,
+# you can't actually see how it will look if you use a different palette. This window
+# displays an image using the current palette used in game, so you can see how it will
+# actually look. You can hot-reload the resource using the Enter key.	
 class ImageViewer(DebugWindow):	
 	def __init__(self, palette):
 		super(ImageViewer,self).__init__("Image Viewer", pyxel.KEY_I)
@@ -43,7 +55,8 @@ class ImageViewer(DebugWindow):
 		pyxel.blt(self.x+self.display_top_left_x,self.y+self.display_top_left_y, self.img_bank, self.source_top_left_x * 8, self.source_top_left_y * 8, (self.source_top_left_x + self.source_sections_width) * 8, (self.source_top_left_y + self.source_sections_height)* 8)
 		pyxel.rectb(self.x+self.display_top_left_x-1,self.y+self.display_top_left_y-1, self.x+self.display_top_left_x  + self.source_sections_width * 8, self.y+self.display_top_left_y + self.source_sections_height * 8, 7)
 		
-	
+# Takes an image from the resource and tiles it as wide and tall as you want.
+# Can hot-reload the image using the Enter key.	
 class Tiler(DebugWindow):
 	def __init__(self):
 		super(Tiler,self).__init__("Tiler", pyxel.KEY_T) 

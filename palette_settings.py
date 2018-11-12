@@ -1,5 +1,7 @@
 import pyxel
 
+# Represents a colour palette in code
+# wraps a list of 16 colour codes and a name
 class Palette():
 	def __init__(self, name):
 		self.name = name
@@ -24,20 +26,26 @@ class Palette():
 		self.c14 = pyxel.DEFAULT_PALETTE[14]
 		self.c15 = pyxel.DEFAULT_PALETTE[15]
 	
+	# Used when we want to actually use the palette to render something
 	def get_palette(self):
 		return [self.c0,  self.c1,  self.c2,  self.c3,
 				self.c4,  self.c5,  self.c6,  self.c7,
 				self.c8,  self.c9,  self.c10, self.c11,
 				self.c12, self.c13, self.c14, self.c15]
 
+# The standard palette to be used while playing the game
 game_palette = Palette("game")
 
+# The palette used to render characters for close up images on social media
 character_palette = Palette("character")
 character_palette.c2 = 0x8b4226
 character_palette.c10 = 0xaa004d
 character_palette.c11 = 0xdd9060
 
+# Spare palette used for testing stuff.
 test_palette = Palette("test")
 test_palette.c13 = 0x8759ad 
 
+# The actual palette being used currently
+# This is set when we initialise the game, so will need to quit and restart to have effect.
 PALETTE = game_palette

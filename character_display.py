@@ -3,6 +3,9 @@ from plugins.window import ChildWindow
 from bars import FillableBar
 from controller import TimeDependentAffector
 
+# The window that shows the character's visible state, and the control UI. Also handles 
+# how player input gets translated into Graph affectors.
+#TODO Refactor: Should separate these responsibilities, implementation and representation
 class CharacterDisplay(ChildWindow):
 	def __init__(self, controller_interface):
 		super(CharacterDisplay, self).__init__(0,0, 1,0.4) 
@@ -34,7 +37,7 @@ class CharacterDisplay(ChildWindow):
 			self.controller_interface.add_affector(up_affector)
 			self.up_control.percent_full = 0
 		if self.down_control.percent_full > 0:
-			# This needs to be much more complicated!
+			#TODO Refactor: make the down control follow a curve over time
 			down_affector = TimeDependentAffector(0)
 			down_percent = self.down_control.percent_full
 			down_affector.f = lambda x: 1 * down_percent
@@ -43,7 +46,8 @@ class CharacterDisplay(ChildWindow):
 		
 	def draw_before_children(self):
 		pyxel.rect(self.x, self.y, self.x + self.width, self.y + self.height, self.background)
-		
+	
+# Interface for player to use the controls	
 class CharacterControlInterface():
 	def __init__(self, character_display):
 		self.character_display = character_display

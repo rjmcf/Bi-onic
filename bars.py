@@ -1,6 +1,8 @@
 import pyxel
 from plugins.window import ChildWindow
 
+# Represents a bar that can be filled. Bars can be horizontal or vertical, and fill in 
+# either direction. Stores how much it's filled as a percentage.
 class FillableBar(ChildWindow):
 	def __init__(self, x_prop, y_prop, width_prop, height_prop, is_vertical, fill_positive, back_colour, fill_colour, border_colour = None):
 		super(FillableBar, self).__init__(x_prop, y_prop, width_prop, height_prop)
@@ -11,13 +13,17 @@ class FillableBar(ChildWindow):
 		self.fill_colour = fill_colour
 		self.border_colour = border_colour
 		
+	# Method used to add an amount to the bar.
 	def adjust_bar(self, percent_difference):
 		self.percent_full += percent_difference
 		self.percent_full = min(self.percent_full, 1)
 		self.percent_full = max(0, self.percent_full)
 		
 	def is_empty(self):
-		return self.percent_full == 0
+		return self.percent_full <= 0
+		
+	def is_full(self):
+		return self.percent_full >= 1
 		
 	def draw_before_children(self):
 		pyxel.rect(self.x, self.y, self.x + self.width, self.y + self.height, self.back_colour)
