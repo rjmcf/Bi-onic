@@ -36,13 +36,15 @@ class ControllerInterface():
 				
 # Represents something that can affect the graphs, whose effect changes with time.
 class TimeDependentAffector():
+	INFINITE = -1
 	def __init__(self, lifetime):
-		# if lifetime == 0, effect lasts one tick
+		# if lifetime == 0, effect lasts one tick,
+		# if lifetime == TimeDependentAffector.INFINITE, effect lasts forever
 		self.lifetime = lifetime
 		self.time_elapsed = 0
 		
 	def is_finished(self):
-		return self.time_elapsed > self.lifetime
+		return self.time_elapsed > self.lifetime if lifetime != TimeDependentAffector.INFINITE else False
 		
 	# Updates the lifecycle, and returns the effect for this particular tick
 	def get_effect_for_this_tick(self):
