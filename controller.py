@@ -20,7 +20,8 @@ class Controller():
 	def update(self):
 		for index in range(len(self.affectors) -1, -1, -1):
 			affector = self.affectors[index]
-			self.graph_handle.add_velocity(affector.get_effect_for_this_tick())
+			# Here we scale for the "y increases downwards" thing
+			self.graph_handle.add_velocity(-affector.get_effect_for_this_tick())
 			if (affector.is_finished()):
 				self.affectors.remove(affector)
 		

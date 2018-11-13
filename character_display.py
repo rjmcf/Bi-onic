@@ -31,21 +31,35 @@ class CharacterDisplay(ChildWindow):
 		
 	def administer(self):
 		if self.up_control.percent_full > 0:
-			up_affector = TimeDependentAffector(0)
-			up_percent = self.up_control.percent_full
-			up_affector.f = lambda x: -1 * up_percent
+			up_affector = UpAffector(80, 80 * self.up_control.percent_full)
 			self.controller_interface.add_affector(up_affector)
 			self.up_control.percent_full = 0
 		if self.down_control.percent_full > 0:
-			#TODO Refactor: make the down control follow a curve over time
-			down_affector = TimeDependentAffector(0)
-			down_percent = self.down_control.percent_full
-			down_affector.f = lambda x: 1 * down_percent
+			down_affector = DownAffector(200, 1000 * self.down_control.percent_full)
 			self.controller_interface.add_affector(down_affector)
 			self.down_control.percent_full = 0
 		
 	def draw_before_children(self):
 		pyxel.rect(self.x, self.y, self.x + self.width, self.y + self.height, self.background)
+		
+class UpAffector(TimeDependentAffector):
+	def __init__(self, lifetime, scale):
+		super(UpAffector, self).__init__(lifetime)
+		self.scale = scale
+		
+	def f(self, time):
+		time = time / self.lifetime
+		return self.scale / self.lifetime * (1 - time) * (1 - time)
+		
+class DownAffector(TimeDependentAffector):
+	def __init__(self, lifetime, scale):
+		super(DownAffector, self).__init__(lifetime)
+		self.scale = scale
+		
+	def f(self, time):
+		time = time / self.lifetime
+		return - self.scale / self.lifetime * time * (1 - time) * (1 - time) * (1 - time)
+		
 	
 # Interface for player to use the controls	
 class CharacterControlInterface():

@@ -32,6 +32,7 @@ class GraphWindow(ChildWindow):
 			self.line.toggle_started()
 			
 		self.line.update(self.velocity)
+		self.velocity = 0
 		
 	# method called to affect the line's velocity, whether by player or environment
 	def add_velocity(self, velocity_adjustment):
