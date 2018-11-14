@@ -4,8 +4,9 @@ from palette_settings import PALETTE
 from line import Line
 from controller import Controller, ControllerInterface
 from graph import GraphWindow
-from character_display import CharacterDisplay, CharacterControlInterface
+from character_display import CharacterDisplay, CharacterDisplayControlInterface
 from player_controller import PlayerController
+from environment import Environment
 from resource_settings import RESOURCE
 from debug import ImageViewer, Tiler, PaletteViewer
 
@@ -27,9 +28,10 @@ class Root(Window):
 		graph_area = GraphWindow()
 		self.controller = Controller(graph_area)
 		self.controller_interface = ControllerInterface(self.controller)
-		character_display_window = CharacterDisplay(self.controller_interface)
-		self.character_control_interface = CharacterControlInterface(character_display_window)
-		self.player_controller = PlayerController(self.character_control_interface)
+		character_display_window = CharacterDisplay()
+		self.character_display_control_interface = CharacterDisplayControlInterface(character_display_window)
+		self.player_controller = PlayerController(self.character_display_control_interface, self.controller_interface)
+		self.environment = Environment(self.controller_interface)
 		# Keep two copies of game windows, so we can switch away and back to them
 		self.child_windows = self.reserve_children = [character_display_window, graph_area]
 		if DEBUG:
