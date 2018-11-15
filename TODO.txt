@@ -1,0 +1,26 @@
+Show threat level based on time in danger zones
+
+Implement game over / reset functionality
+
+Show Character in Display
+	- Respond to threat level
+	
+Add more to environmental factors, have events
+	- Need way to display fact that they're coming.
+	
+Main menu
+	- Input name
+	- Social Media links
+	
+Modes
+	- Story
+		- End game
+		- Dialogue
+	- Endless mode
+		- Score?
+
+Music and Sound
+	
+Tutorial
+
+Graphics polish
