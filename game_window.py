@@ -4,7 +4,7 @@ from palette_settings import PALETTE
 from line import Line
 from controller import Controller, ControllerInterface
 from graph import GraphWindow
-from character_display import CharacterDisplay, CharacterDisplayControlInterface
+from character_display import CharacterDisplay, CharacterDisplayControlInterface, CharacterDisplayReservoirInterface
 from player_controller import PlayerController
 from environment import Environment
 from resource_settings import RESOURCE
@@ -25,13 +25,14 @@ class Root(Window):
 		# be imported
 		pyxel.init(self.width, self.height, caption=self.caption, palette=self.palette.get_palette())
 		pyxel.load(RESOURCE)
-		graph_area = GraphWindow()
-		self.controller = Controller(graph_area)
-		self.controller_interface = ControllerInterface(self.controller)
 		character_display_window = CharacterDisplay()
-		self.character_display_control_interface = CharacterDisplayControlInterface(character_display_window)
-		self.player_controller = PlayerController(self.character_display_control_interface, self.controller_interface)
-		self.environment = Environment(self.controller_interface)
+		character_display_control_interface = CharacterDisplayControlInterface(character_display_window)
+		character_display_reservoir_interface = CharacterDisplayReservoirInterface(character_display_window)
+		graph_area = GraphWindow()
+		self.controller = Controller(graph_area, character_display_reservoir_interface)
+		controller_interface = ControllerInterface(self.controller)
+		self.player_controller = PlayerController(character_display_control_interface, controller_interface)
+		self.environment = Environment(controller_interface)
 		# Keep two copies of game windows, so we can switch away and back to them
 		self.child_windows = self.reserve_children = [character_display_window, graph_area]
 		if DEBUG:

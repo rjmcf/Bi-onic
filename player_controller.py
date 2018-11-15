@@ -23,7 +23,7 @@ class PlayerController():
 			self.controller_interface.add_affector(up_affector)
 			self.character_display_control_interface.empty_up()
 		if down_percent > 0:
-			down_affector = DownAffector(200, 1000 * down_percent)
+			down_affector = DownAffector(400, 1000 * down_percent)
 			self.controller_interface.add_affector(down_affector)
 			self.character_display_control_interface.empty_down()
 			

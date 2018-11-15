@@ -1,6 +1,7 @@
 import pyxel
 from plugins.window import ChildWindow
 from bars import FillableBar
+from player_controller import DownAffector
 
 # The window that shows the character's visible state, and the control UI. 
 class CharacterDisplay(ChildWindow):
@@ -24,7 +25,13 @@ class CharacterDisplay(ChildWindow):
 			self.down_control.adjust_bar(percent_increase)
 		else:
 			self.up_control.adjust_bar(-percent_increase)
+			
+	def empty_down_reservoir(self):
+		self.down_reservoir.set_bar(0)
 		
+	def add_down_reservoir_amount(self, percent_increase):
+		self.down_reservoir.adjust_bar(percent_increase)
+			
 	def draw_before_children(self):
 		pyxel.rect(self.x, self.y, self.x + self.width, self.y + self.height, self.background)		
 	
@@ -50,4 +57,17 @@ class CharacterDisplayControlInterface():
 		
 	def empty_down(self):
 		self.character_display.down_control.percent_full = 0
+		
+# Interface for controller to use the reservoir UI
+class CharacterDisplayReservoirInterface():
+	def __init__(self, character_display):
+		self.character_display = character_display
+		
+	def empty_down_reservoir(self):
+		self.character_display.empty_down_reservoir()
+		
+	def add_down_reservoir_amount(self, affector):
+		if (isinstance(affector, DownAffector)):
+			ticks_left = affector.lifetime + 1 - affector.time_elapsed
+			self.character_display.add_down_reservoir_amount(ticks_left / 1000)
 		
