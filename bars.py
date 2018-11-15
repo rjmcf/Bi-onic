@@ -15,7 +15,11 @@ class FillableBar(ChildWindow):
 		
 	# Method used to add an amount to the bar.
 	def adjust_bar(self, percent_difference):
-		self.percent_full += percent_difference
+		self.set_bar(self.percent_full + percent_difference)
+		
+	# Method used to set amount for bar
+	def set_bar(self, percent_full):
+		self.percent_full = percent_full
 		self.percent_full = min(self.percent_full, 1)
 		self.percent_full = max(0, self.percent_full)
 		
