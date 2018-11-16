@@ -3,28 +3,21 @@ from line import LineState
 from random import randint
 
 class Environment():
-	def __init__(self, controller_interface, line_state_interface, threat_display_interface):
+	def __init__(self, controller_interface, line_state_interface, threat_interface):
 		self.controller_interface = controller_interface
 		self.controller_interface.add_affector(RandomPerturbationAffector())
 		self.line_state_interface = line_state_interface
-		self.threat_display_interface = threat_display_interface
-		self.threat_percent = 0
+		self.threat_interface = threat_interface
 		
 	def update(self):
 		current_line_state = self.line_state_interface.get_current_line_state()
 		if current_line_state == LineState.STATE_NORMAL:
-			self.threat_percent -= 0.3 / 100
+			self.threat_interface.adjust_threat_percent(-0.3 / 100)
 		elif current_line_state == LineState.STATE_HIGH:
-			self.threat_percent += 0.1 / 100
+			self.threat_interface.adjust_threat_percent(0.1 / 100)
 		elif current_line_state == LineState.STATE_LOW:
-			self.threat_percent += 0.5 / 100
-			
-		if self.threat_percent < 0:
-			self.threat_percent = 0
-		elif self.threat_percent > 1:
-			self.threat_percent = 1
-			
-		self.threat_display_interface.set_threat_percentage(self.threat_percent)
+			self.threat_interface.adjust_threat_percent(0.5 / 100)
+
 		
 class RandomPerturbationAffector(TimeDependentAffector):
 	def __init__(self):
