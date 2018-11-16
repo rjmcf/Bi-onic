@@ -1,5 +1,3 @@
-Show threat level based on time in danger zones
-
 Implement game over / reset functionality
 
 Show Character in Display
