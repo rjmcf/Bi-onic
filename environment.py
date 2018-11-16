@@ -13,9 +13,9 @@ class Environment():
 	def update(self):
 		current_line_state = self.line_state_interface.get_current_line_state()
 		if current_line_state == LineState.STATE_NORMAL:
-			self.threat_percent -= 0.005 / 100
+			self.threat_percent -= 0.3 / 100
 		elif current_line_state == LineState.STATE_HIGH:
-			self.threat_percent += 0.01 / 100
+			self.threat_percent += 0.1 / 100
 		elif current_line_state == LineState.STATE_LOW:
 			self.threat_percent += 0.5 / 100
 			
