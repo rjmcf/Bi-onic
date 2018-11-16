@@ -54,3 +54,10 @@ class GraphWindow(ChildWindow):
 			raise ValueError()
 		
 		self.line.draw(self.x + self.width//2, self.y + self.height//2)
+		
+class LineStateInterface():
+	def __init__(self, graph_window):
+		self.graph_window = graph_window
+		
+	def get_current_line_state(self):
+		return self.graph_window.line_state.state

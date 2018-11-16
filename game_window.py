@@ -3,8 +3,8 @@ from plugins.window import Window, ChildWindow
 from palette_settings import PALETTE
 from line import Line
 from controller import Controller, ControllerInterface
-from graph import GraphWindow
-from character_display import CharacterDisplay, CharacterDisplayControlInterface, CharacterDisplayReservoirInterface
+from graph import GraphWindow, LineStateInterface
+from character_display import CharacterDisplay, CharacterDisplayControlInterface, CharacterDisplayReservoirInterface, ThreatDisplayInterface
 from player_controller import PlayerController
 from environment import Environment
 from resource_settings import RESOURCE
@@ -28,11 +28,13 @@ class Root(Window):
 		character_display_window = CharacterDisplay()
 		character_display_control_interface = CharacterDisplayControlInterface(character_display_window)
 		character_display_reservoir_interface = CharacterDisplayReservoirInterface(character_display_window)
+		threat_display_interface = ThreatDisplayInterface(character_display_window)
 		graph_area = GraphWindow()
+		line_state_interface = LineStateInterface(graph_area)
 		self.controller = Controller(graph_area, character_display_reservoir_interface)
 		controller_interface = ControllerInterface(self.controller)
 		self.player_controller = PlayerController(character_display_control_interface, controller_interface)
-		self.environment = Environment(controller_interface)
+		self.environment = Environment(controller_interface, line_state_interface, threat_display_interface)
 		# Keep two copies of game windows, so we can switch away and back to them
 		self.child_windows = self.reserve_children = [character_display_window, graph_area]
 		if DEBUG:
@@ -46,6 +48,7 @@ class Root(Window):
 		
 		self.player_controller.update()
 		self.controller.update()
+		self.environment.update()
 		
 		if DEBUG:
 			for debug_window in self.debug_windows:
