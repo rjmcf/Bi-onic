@@ -18,9 +18,9 @@ DEBUG = True
 # sure all the components have the data they require
 #TODO Refactor: separate out some responsibilities.
 class Root(Window):
-	def __init__(self, width, height, caption):
-		super(Root, self).__init__(0,0, width, height)
-		self.caption = caption
+	def __init__(self):
+		super(Root, self).__init__(0,0, 255,160)
+		self.caption = "Bi-onic"
 		self.palette = PALETTE
 		# This line needs to come before any Pyxel imports are used, otherwise they can't 
 		# be imported
