@@ -1,4 +1,4 @@
-from game_window import Root
+from root import Root
 
 class Core():
 	def __init__(self):
