@@ -1,8 +1,10 @@
 class GameState():
-	def __init__(self, threat_display_interface):
+	def __init__(self):
 		self.player_threat_percent = 0
-		self.threat_display_interface = threat_display_interface
 		self.game_playing = True
+		
+	def set_threat_display_interface(self, threat_display_interface):
+		self.threat_display_interface = threat_display_interface
 		
 	def update(self):
 		self.threat_display_interface.set_threat_percentage(self.player_threat_percent)
