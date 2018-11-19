@@ -31,6 +31,10 @@ class Controller():
 		for affector in self.affectors:
 			self.character_display_reservoir_handle.add_down_reservoir_amount(affector)
 			
+	def reset(self):
+		self.reservoir = 0
+		self.affectors = []
+			
 		
 # Interface to allow things (player or environment) to add things that will affect the 
 # graph		

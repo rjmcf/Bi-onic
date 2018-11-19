@@ -26,33 +26,37 @@ class Root(Window):
 		# be imported
 		pyxel.init(self.width, self.height, caption=self.caption, palette=self.palette.get_palette())
 		pyxel.load(RESOURCE)
-		character_display_window = CharacterDisplay()
-		character_display_control_interface = CharacterDisplayControlInterface(character_display_window)
-		character_display_reservoir_interface = CharacterDisplayReservoirInterface(character_display_window)
-		threat_display_interface = ThreatDisplayInterface(character_display_window)
+		self.character_display_window = CharacterDisplay()
+		character_display_control_interface = CharacterDisplayControlInterface(self.character_display_window)
+		character_display_reservoir_interface = CharacterDisplayReservoirInterface(self.character_display_window)
+		threat_display_interface = ThreatDisplayInterface(self.character_display_window)
 		self.game_state = GameState(threat_display_interface)
 		threat_interface = ThreatInterface(self.game_state)
-		graph_area = GraphWindow()
-		line_state_interface = LineStateInterface(graph_area)
-		self.controller = Controller(graph_area, character_display_reservoir_interface)
+		self.graph_area = GraphWindow()
+		line_state_interface = LineStateInterface(self.graph_area)
+		self.controller = Controller(self.graph_area, character_display_reservoir_interface)
 		controller_interface = ControllerInterface(self.controller)
 		self.player_controller = PlayerController(character_display_control_interface, controller_interface)
 		self.environment = Environment(controller_interface, line_state_interface, threat_interface)
 		# Keep two copies of game windows, so we can switch away and back to them
-		self.child_windows = self.reserve_children = [character_display_window, graph_area]
+		self.child_windows = self.reserve_children = [self.character_display_window, self.graph_area]
 		if DEBUG:
 			self.debug_windows = [ImageViewer(self.palette), Tiler(), PaletteViewer()]
 		
 	def start(self):
 		pyxel.run(self.update, self.draw)
 		
-	def update(self):
-		super(Root, self).update()
-		
-		self.player_controller.update()
-		self.controller.update()
-		self.environment.update()
-		self.game_state.update()
+	def update(self):		
+		if self.game_state.game_playing:
+			super(Root, self).update()
+			self.player_controller.update()
+			self.controller.update()
+			self.environment.update()
+			self.game_state.update()
+		else:
+			if pyxel.btnp(pyxel.KEY_R):
+				for thing in [self.game_state, self.controller, self.environment, self.graph_area, self.character_display_window]:
+					thing.reset()
 		
 		if DEBUG:
 			for debug_window in self.debug_windows:
@@ -68,5 +72,8 @@ class Root(Window):
 	def draw(self):
 		pyxel.cls(0)
 		super(Root, self).draw()
+		
+		if not self.game_state.game_playing:
+			pyxel.text(0,0, "Press R to Restart", 7)
 		
 		

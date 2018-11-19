@@ -22,6 +22,11 @@ class Line():
 		self.segments = [self.current_height]
 		self.started = False
 		
+	def reset(self):
+		self.current_height = 0
+		self.segments = [self.current_height]
+		self.started = False
+		
 	def toggle_started(self):	
 		self.started = not self.started
 		

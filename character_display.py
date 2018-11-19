@@ -15,6 +15,11 @@ class CharacterDisplay(ChildWindow):
 		self.threat_display = FillableBar(0.05,0.1, 0.05,0.8, True,False, self.background,8, self.control_border)
 		self.child_windows = [self.up_control, self.down_control, self.down_reservoir, self.threat_display]
 		
+	def reset(self):
+		self.up_control.set_bar(0)
+		self.down_control.set_bar(0)
+		self.down_reservoir.set_bar(0)
+		
 	def add_up_control(self, percent_increase):
 		if self.down_control.is_empty():
 			self.up_control.adjust_bar(percent_increase)

@@ -1,4 +1,6 @@
-Implement game over / reset functionality
+Change line display when too high.
+
+Game Over when line too low.
 
 Show Character in Display
 	- Respond to threat level

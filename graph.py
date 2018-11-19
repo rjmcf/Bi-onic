@@ -25,6 +25,9 @@ class GraphWindow(ChildWindow):
 		self.danger_low = TestChild(0,0.8, 1,0.2, 8)
 		self.child_windows = [self.danger_high, self.danger_low]
 		
+	def reset(self):
+		self.line.reset()
+		
 	def update(self):
 		super(GraphWindow, self).update()
 		

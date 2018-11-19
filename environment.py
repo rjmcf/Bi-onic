@@ -9,6 +9,9 @@ class Environment():
 		self.line_state_interface = line_state_interface
 		self.threat_interface = threat_interface
 		
+	def reset(self):
+		self.controller_interface.add_affector(RandomPerturbationAffector())
+		
 	def update(self):
 		current_line_state = self.line_state_interface.get_current_line_state()
 		if current_line_state == LineState.STATE_NORMAL:
