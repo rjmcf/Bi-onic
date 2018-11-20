@@ -11,13 +11,18 @@ class ControllerToGraph():
 # Keeps track of factors that affect the graph's velocity, either from the player or 
 # the environment.
 class Controller():
-	def __init__(self, graph, character_display_reservoir_interface):
+	def __init__(self):
 		self.reservoir = 0
-		#TODO Refactor: Should we create interfaces elsewhere and pass in, or pass and create here?
-		self.graph_handle = ControllerToGraph(graph)
-		self.character_display_reservoir_handle = character_display_reservoir_interface
 		# List of things that are currently affecting the graph.
 		self.affectors = []
+		
+	def set_character_display_reservoir_interface(self, character_display_reservoir_interface):
+		self.character_display_reservoir_handle = character_display_reservoir_interface
+		
+	def set_graph(self, graph):
+		#TODO Refactor: Should we create interfaces elsewhere and pass in, or pass and create here?
+		self.graph_handle = ControllerToGraph(graph)
+		
 		
 	def update(self):
 		for index in range(len(self.affectors) -1, -1, -1):

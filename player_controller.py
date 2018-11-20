@@ -3,9 +3,11 @@ from controller import TimeDependentAffector
 
 # Used by the Player to have an effect on the graph, via the ControlInterface.
 class PlayerController():
-	def __init__(self, character_display_control_interface, controller_interface):
-		self.character_display_control_interface = character_display_control_interface
+	def __init__(self, controller_interface):
 		self.controller_interface = controller_interface
+		
+	def set_character_display_control_interface(self, character_display_control_interface):
+		self.character_display_control_interface = character_display_control_interface
 		
 	def update(self):
 		if pyxel.btn(pyxel.KEY_UP):
