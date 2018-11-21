@@ -18,7 +18,7 @@ class GraphWindow(ChildWindow):
 	def __init__(self):
 		super(GraphWindow, self).__init__(0,0.4, 1,0.6)
 		self.colour = 6
-		self.line_display = LineDisplay(150, -30,10, 0,0, 12, 2)
+		self.line_display = LineDisplay(150, -30,10, -100,48, 12, 2)
 		self.danger_high = TestChild(0,0, 1,0.4, 9)
 		self.danger_low = TestChild(0,0.8, 1,0.2, 8)
 		self.child_windows = [self.danger_high, self.danger_low]

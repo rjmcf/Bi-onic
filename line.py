@@ -93,8 +93,13 @@ class LineDisplay():
 		x = start_x
 		# Draw backwards from the starting point
 		for index in range(len(self.segments)-1, -1, -1):
-			pyxel.circ(x, start_y + self.segments[index], self.width, self.color)
+			if self.segments[index] < -self.high_bound:
+				if index == len(self.segments)-1:
+					pyxel.blt(x,start_y - self.high_bound, 0, 32,0, 7,8, 0)
+			else:
+				pyxel.circ(x, start_y + self.segments[index], self.width, self.color)
 			x -= 1
+		
 	
 			
 # State recording information about the line	

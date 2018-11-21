@@ -1,5 +1,3 @@
-Change line display when too high.
-
 Game Over when line too low.
 
 Show Character in Display
