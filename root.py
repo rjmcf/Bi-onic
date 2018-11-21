@@ -36,6 +36,9 @@ class Root(Window):
 		else:
 			self.child_windows = [window]
 			
+	def set_player_threat_display(self, player_threat):
+		self.character_display_window.set_player_threat_display(player_threat)
+			
 	def reset(self):
 		for thing in [self.graph_area, self.character_display_window]:
 			thing.reset()

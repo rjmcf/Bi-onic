@@ -27,6 +27,7 @@ class GraphWindow(ChildWindow):
 		
 	def reset(self):
 		self.line.reset()
+		self.line_state.state = LineState.STATE_OFF
 		
 	def update(self):
 		super(GraphWindow, self).update()
