@@ -38,9 +38,12 @@ class Root(Window):
 			
 	def set_player_threat_display(self, player_threat):
 		self.character_display_window.set_player_threat_display(player_threat)
+		
+	def set_line_display(self, line):
+		self.graph_area.set_line_display(line)
 			
 	def reset(self):
-		for thing in [self.graph_area, self.character_display_window]:
+		for thing in [self.character_display_window]:
 			thing.reset()
 			
 	def update(self):

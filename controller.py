@@ -1,17 +1,10 @@
 import pyxel
 
-# Interface to allow the Controller to talk to the Graph.
-class ControllerToGraph():
-	def __init__(self, graph):
-		self.graph = graph
-		
-	def add_velocity(self, velocity_adjustment):
-		self.graph.add_velocity(velocity_adjustment)
-
 # Keeps track of factors that affect the graph's velocity, either from the player or 
 # the environment.
 class Controller():
-	def __init__(self):
+	def __init__(self, line_interface):
+		self.line_interface = line_interface
 		self.reservoir = 0
 		# List of things that are currently affecting the graph.
 		self.affectors = []
@@ -19,16 +12,11 @@ class Controller():
 	def set_character_display_reservoir_interface(self, character_display_reservoir_interface):
 		self.character_display_reservoir_handle = character_display_reservoir_interface
 		
-	def set_graph(self, graph):
-		#TODO Refactor: Should we create interfaces elsewhere and pass in, or pass and create here?
-		self.graph_handle = ControllerToGraph(graph)
-		
-		
 	def update(self):
 		for index in range(len(self.affectors) -1, -1, -1):
 			affector = self.affectors[index]
 			# Here we scale for the "y increases downwards" thing
-			self.graph_handle.add_velocity(-affector.get_effect_for_this_tick())
+			self.line_interface.add_velocity(-affector.get_effect_for_this_tick())
 			if (affector.is_finished()):
 				self.affectors.remove(affector)
 				

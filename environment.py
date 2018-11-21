@@ -3,12 +3,10 @@ from line import LineState
 from random import randint
 
 class Environment():
-	def __init__(self, controller_interface, threat_interface):
+	def __init__(self, controller_interface, threat_interface, line_state_interface):
 		self.controller_interface = controller_interface
 		self.controller_interface.add_affector(RandomPerturbationAffector())
 		self.threat_interface = threat_interface
-		
-	def set_line_state_interface(self, line_state_interface):
 		self.line_state_interface = line_state_interface
 		
 	def reset(self):
