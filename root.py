@@ -41,6 +41,12 @@ class Root(Window):
 		
 	def set_line_display(self, line):
 		self.graph_area.set_line_display(line)
+		
+	def set_character_display_reservoir_interface(self, controller):
+		self.character_display_window.set_character_display_reservoir_interface(controller)
+		
+	def set_character_display_control_interface(self, player_controller):
+		self.character_display_window.set_character_display_control_interface(player_controller)
 			
 	def reset(self):
 		for thing in [self.character_display_window]:

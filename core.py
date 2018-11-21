@@ -1,6 +1,5 @@
 import pyxel
 from root import Root
-from character_display import CharacterDisplayControlInterface, CharacterDisplayReservoirInterface, ThreatDisplayInterface
 from game_state import GameState
 from player_controller import PlayerController
 from environment import Environment
@@ -20,8 +19,8 @@ class Core():
 		self.root_window = Root(self.game_state)
 		self.root_window.set_player_threat_display(self.player_threat)
 		self.root_window.set_line_display(self.line)
-		self.controller.set_character_display_reservoir_interface(CharacterDisplayReservoirInterface(self.root_window.character_display_window))
-		self.player_controller.set_character_display_control_interface(CharacterDisplayControlInterface(self.root_window.character_display_window))
+		self.root_window.set_character_display_reservoir_interface(self.controller)
+		self.root_window.set_character_display_control_interface(self.player_controller)
 		
 	def update(self):		
 		if self.game_state.game_playing:

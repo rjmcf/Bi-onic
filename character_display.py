@@ -16,6 +16,12 @@ class CharacterDisplay(ChildWindow):
 		self.player_threat_display = PlayerThreatWindow(0.05,0.1, 0.05,0.8, self.background, self.control_border)
 		self.child_windows = [self.up_control, self.down_control, self.down_reservoir, self.player_threat_display]
 		
+	def set_character_display_reservoir_interface(self, controller):
+		controller.set_character_display_reservoir_interface(CharacterDisplayReservoirInterface(self))
+		
+	def set_character_display_control_interface(self, player_controller):
+		player_controller.set_character_display_control_interface(CharacterDisplayControlInterface(self))
+		
 	def reset(self):
 		self.up_control.set_bar(0)
 		self.down_control.set_bar(0)
