@@ -20,18 +20,6 @@ class CharacterDisplay(ChildWindow):
 		self.up_control.set_bar(0)
 		self.down_control.set_bar(0)
 		self.down_reservoir.set_bar(0)
-		
-	def add_up_control(self, percent_increase):
-		if self.down_control.is_empty():
-			self.up_control.adjust_bar(percent_increase)
-		else:
-			self.down_control.adjust_bar(-percent_increase)
-		
-	def add_down_control(self, percent_increase):
-		if self.up_control.is_empty():
-			self.down_control.adjust_bar(percent_increase)
-		else:
-			self.up_control.adjust_bar(-percent_increase)
 			
 	def empty_down_reservoir(self):
 		self.down_reservoir.set_bar(0)
@@ -50,23 +38,11 @@ class CharacterDisplayControlInterface():
 	def __init__(self, character_display):
 		self.character_display = character_display
 		
-	def add_up_control(self, percent_increase):
-		self.character_display.add_up_control(percent_increase)
+	def set_up_control(self, percent):
+		self.character_display.up_control.set_bar(percent)
 		
-	def get_up_percent_full(self):
-		return self.character_display.up_control.percent_full
-		
-	def empty_up(self):
-		self.character_display.up_control.percent_full = 0
-		
-	def add_down_control(self, percent_increase):
-		self.character_display.add_down_control(percent_increase)
-		
-	def get_down_percent_full(self):
-		return self.character_display.down_control.percent_full
-		
-	def empty_down(self):
-		self.character_display.down_control.percent_full = 0
+	def set_down_control(self, percent):
+		self.character_display.down_control.set_bar(percent)
 		
 # Interface for controller to use the reservoir UI
 class CharacterDisplayReservoirInterface():

@@ -33,7 +33,8 @@ class Core():
 			self.root_window.update()
 		else:
 			if pyxel.btnp(pyxel.KEY_R):
-				for thing in [self.game_state, self.player_threat, self.line, self.controller, self.environment, self.root_window]:
+				for thing in [self.game_state, self.player_threat, self.line, self.controller, 
+							  self.player_controller, self.environment, self.root_window]:
 					thing.reset()
 		
 	def start(self):

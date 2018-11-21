@@ -5,29 +5,52 @@ from controller import TimeDependentAffector
 class PlayerController():
 	def __init__(self, controller_interface):
 		self.controller_interface = controller_interface
+		self.up_percent = 0
+		self.down_percent = 0
 		
 	def set_character_display_control_interface(self, character_display_control_interface):
 		self.character_display_control_interface = character_display_control_interface
 		
+	def reset(self):
+		self.up_percent = 0
+		self.down_percent = 0
+		
 	def update(self):
 		if pyxel.btn(pyxel.KEY_UP):
-			self.character_display_control_interface.add_up_control(0.02)
+			self.add_up_control(0.02)
 		elif pyxel.btn(pyxel.KEY_DOWN):
-			self.character_display_control_interface.add_down_control(0.02)
+			self.add_down_control(0.02)
 		elif pyxel.btnp(pyxel.KEY_ENTER):
 			self.administer()
 			
+		self.character_display_control_interface.set_up_control(self.up_percent)
+		self.character_display_control_interface.set_down_control(self.down_percent)
+			
+	def add_up_control(self, percent_increase):
+		if self.down_percent == 0:
+			self.up_percent += percent_increase
+			self.up_percent = min(1, self.up_percent)
+		else:
+			self.down_percent -= percent_increase
+			self.down_percent = max(0, self.down_percent)
+		
+	def add_down_control(self, percent_increase):
+		if self.up_percent == 0:
+			self.down_percent += percent_increase
+			self.down_percent = min(1, self.down_percent)
+		else:
+			self.up_percent -= percent_increase
+			self.up_percent = max(0, self.up_percent)
+			
 	def administer(self):
-		up_percent = self.character_display_control_interface.get_up_percent_full()
-		down_percent = self.character_display_control_interface.get_down_percent_full()
-		if up_percent > 0:
-			up_affector = UpAffector(80, 80 * up_percent)
+		if self.up_percent > 0:
+			up_affector = UpAffector(80, 80 * self.up_percent)
 			self.controller_interface.add_affector(up_affector)
-			self.character_display_control_interface.empty_up()
-		if down_percent > 0:
-			down_affector = DownAffector(400, 1000 * down_percent)
+			self.up_percent = 0
+		if self.down_percent > 0:
+			down_affector = DownAffector(400, 1000 * self.down_percent)
 			self.controller_interface.add_affector(down_affector)
-			self.character_display_control_interface.empty_down()
+			self.down_percent = 0
 			
 class UpAffector(TimeDependentAffector):
 	def __init__(self, lifetime, scale):
