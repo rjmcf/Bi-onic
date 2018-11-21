@@ -1,7 +1,6 @@
 import pyxel
-from plugins.window import Window, ChildWindow
+from plugins.window import Window
 from palette_settings import PALETTE
-from line import Line
 from graph import GraphWindow
 from character_display import CharacterDisplay
 from resource_settings import RESOURCE

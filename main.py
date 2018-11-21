@@ -1,4 +1,3 @@
-import pyxel
 from core import Core
 
 class App:
