@@ -1,5 +1,8 @@
 import pyxel
 
+from plugins.geometry import Point, Size
+from plugins.sprite import Sprite
+
 # Represents the line drawn on the graph. 
 #TODO Unfinished: Allow changing of speed
 #TODO Unfinished: Restrict line to stay within bounds, rendering arrows in the event that 
@@ -80,6 +83,7 @@ class LineDisplay():
 		self.high_bound = high_bound
 		self.color = color
 		self.width = width
+		self.arrow_sprite = Sprite(Point(32,0), Size(7,8), 0, 0)
 		# Record segments to be drawn as the heights they should be drawn at
 		self.segments = []
 		
@@ -100,7 +104,7 @@ class LineDisplay():
 		for index in range(len(self.segments)-1, -1, -1):
 			if self.segments[index] < -self.high_bound:
 				if index == len(self.segments)-1:
-					pyxel.blt(x,start_y - self.high_bound, 0, 32,0, 7,8, 0)
+					self.arrow_sprite.draw(Point(x,start_y - self.high_bound))
 			else:
 				pyxel.circ(x, start_y + self.segments[index], self.width, self.color)
 			x -= 1
