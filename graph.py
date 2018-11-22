@@ -15,12 +15,21 @@ class TestChild(Window):
 # The window within which the graph is drawn. Keeps track of the Line, and the velocity 
 # the line should be moving at
 class GraphWindow(Window):
-	def __init__(self):
-		super(GraphWindow, self).__init__(0,0.4, 1,0.6)
+	def __init__(self, parent_x,parent_y, parent_width,parent_height):
+		super(GraphWindow, self).__init__(0,0.4, 1,0.6, parent_x,parent_y, parent_width,parent_height)
 		self.colour = 6
-		self.line_display = LineDisplay(150, -30,10, -100,48, 12, 2)
-		self.danger_high = TestChild(0,0, 1,0.4, 9)
-		self.danger_low = TestChild(0,0.8, 1,0.2, 8)
+		self.start_x_prop = 1/2
+		self.start_y_prop = 1/2
+		self.high_region_prop = 2/5
+		self.low_region_prop = 1/5
+		self.line_display = LineDisplay(150, 
+										-(1-self.start_y_prop-self.low_region_prop)*self.height,
+										(self.start_y_prop-self.high_region_prop)*self.height, 
+										(self.start_y_prop-1)*self.height,
+										self.start_y_prop*self.height, 
+										12, 2)
+		self.danger_high = TestChild(0,0, 1,self.high_region_prop, 9)
+		self.danger_low = TestChild(0,1-self.low_region_prop, 1,self.low_region_prop, 8)
 		self.child_windows = [self.danger_high, self.danger_low]
 		
 	def set_line_display(self, line):
@@ -33,5 +42,5 @@ class GraphWindow(Window):
 	def draw_before_children(self):
 		pyxel.rect(self.x, self.y, self.x + self.width, self.y + self.height, self.colour)
 		
-	def draw_after_children(self):		
-		self.line_display.draw(self.x + self.width//2, self.y + self.height//2)
+	def draw_after_children(self):
+		self.line_display.draw(self.x + self.start_x_prop*self.width, self.y + self.start_y_prop*self.height)

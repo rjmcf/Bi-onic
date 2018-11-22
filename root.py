@@ -23,7 +23,7 @@ class Root(TopLevelWindow):
 		pyxel.init(self.width, self.height, caption=self.caption, palette=self.palette.get_palette())
 		pyxel.load(RESOURCE)
 		self.character_display_window = CharacterDisplay()
-		self.graph_area = GraphWindow()
+		self.graph_area = GraphWindow(0,0, self.width, self.height)
 		# Keep two copies of game windows, so we can switch away and back to them
 		self.windows = self.reserve_children = [self.character_display_window, self.graph_area]
 		if DEBUG:
