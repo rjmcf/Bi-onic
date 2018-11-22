@@ -1,11 +1,11 @@
 import pyxel
-from plugins.window import ChildWindow
+from plugins.window import Window
 from bars import FillableBar
 from player_controller import DownAffector
 from player_threat import PlayerThreatWindow
 
 # The window that shows the character's visible state, and the control UI. 
-class CharacterDisplay(ChildWindow):
+class CharacterDisplay(Window):
 	def __init__(self):
 		super(CharacterDisplay, self).__init__(0,0, 1,0.4) 
 		self.background = 2

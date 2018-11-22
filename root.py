@@ -1,5 +1,5 @@
 import pyxel
-from plugins.window import Window
+from plugins.window import TopLevelWindow, Window
 from palette_settings import PALETTE
 from graph import GraphWindow
 from character_display import CharacterDisplay
@@ -12,9 +12,9 @@ DEBUG = True
 # Currently owns the game as a whole, which boils down to setting up the layout and making
 # sure all the components have the data they require
 #TODO Refactor: separate out some responsibilities.
-class Root(Window):
+class Root(TopLevelWindow):
 	def __init__(self, game_state):
-		super(Root, self).__init__(0,0, 255,160)
+		super(Root, self).__init__(255,160)
 		self.caption = "Bi-onic"
 		self.palette = PALETTE
 		self.game_state = game_state
@@ -25,15 +25,15 @@ class Root(Window):
 		self.character_display_window = CharacterDisplay()
 		self.graph_area = GraphWindow()
 		# Keep two copies of game windows, so we can switch away and back to them
-		self.child_windows = self.reserve_children = [self.character_display_window, self.graph_area]
+		self.windows = self.reserve_children = [self.character_display_window, self.graph_area]
 		if DEBUG:
 			self.debug_windows = [ImageViewer(self.palette), Tiler(), PaletteViewer()]
 				
 	def toggle_window(self, window):
-		if window in self.child_windows:
-			self.child_windows = self.reserve_children
+		if window in self.windows:
+			self.windows = self.reserve_children
 		else:
-			self.child_windows = [window]
+			self.windows = [window]
 			
 	def set_player_threat_display(self, player_threat):
 		self.character_display_window.set_player_threat_display(player_threat)

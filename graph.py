@@ -1,10 +1,10 @@
 import pyxel
-from plugins.window import ChildWindow
+from plugins.window import Window
 from line import LineDisplay
 
 # Just fills itself with a given colour
 #TODO Remove: only needed while we don't have dedicated windows for each section
-class TestChild(ChildWindow):
+class TestChild(Window):
 	def __init__(self, x_prop, y_prop, width_prop, height_prop, colour):
 		super(TestChild, self).__init__(x_prop, y_prop, width_prop, height_prop)
 		self.colour = colour
@@ -14,7 +14,7 @@ class TestChild(ChildWindow):
 
 # The window within which the graph is drawn. Keeps track of the Line, and the velocity 
 # the line should be moving at
-class GraphWindow(ChildWindow):
+class GraphWindow(Window):
 	def __init__(self):
 		super(GraphWindow, self).__init__(0,0.4, 1,0.6)
 		self.colour = 6

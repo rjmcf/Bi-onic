@@ -1,10 +1,10 @@
 import pyxel
-from plugins.window import ChildWindow
+from plugins.window import Window
 from palette_settings import PALETTE
 from resource_settings import RESOURCE
 
 # The base for windows used for debugs. Defines a key the user can use to toggle to it
-class DebugWindow(ChildWindow):
+class DebugWindow(Window):
 	def __init__(self, title, toggle_key):
 		super(DebugWindow, self).__init__(0,0, 1,1)
 		self.title = title

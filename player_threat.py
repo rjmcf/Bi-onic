@@ -1,4 +1,4 @@
-from plugins.window import ChildWindow
+from plugins.window import Window
 from bars import FillableBar
 
 class PlayerThreat():
@@ -20,7 +20,7 @@ class PlayerThreat():
 	def reset(self):
 		self.set_player_threat_percent(0)
 
-class PlayerThreatWindow(ChildWindow):
+class PlayerThreatWindow(Window):
 	def __init__(self, x_prop, y_prop, width_prop, height_prop, background_col, border_col):
 		super(PlayerThreatWindow, self).__init__(x_prop, y_prop, width_prop, height_prop)
 		

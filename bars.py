@@ -1,9 +1,9 @@
 import pyxel
-from plugins.window import ChildWindow
+from plugins.window import Window
 
 # Represents a bar that can be filled. Bars can be horizontal or vertical, and fill in 
 # either direction. Stores how much it's filled as a percentage.
-class FillableBar(ChildWindow):
+class FillableBar(Window):
 	def __init__(self, x_prop, y_prop, width_prop, height_prop, is_vertical, fill_positive, back_colour, fill_colour, border_colour = None):
 		super(FillableBar, self).__init__(x_prop, y_prop, width_prop, height_prop)
 		self.percent_full = 0
