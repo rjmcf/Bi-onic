@@ -1,5 +1,3 @@
-Game Over when line too low.
-
 Show Character in Display
 	- Respond to threat level
 	
