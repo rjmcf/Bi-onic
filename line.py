@@ -6,8 +6,9 @@ import pyxel
 # 	it doesn't.
 #TODO Unfinished: Allow for jumps of more than 1 * width to not break the line.
 class Line():
-	def __init__(self):
+	def __init__(self, game_state):
 		self.line_state = LineState()
+		self.game_state = game_state
 		# Record positions of segments as height above some "middle" value
 		self.current_height = 0
 		self.velocity = 0
@@ -15,7 +16,9 @@ class Line():
 		
 	def set_display(self, line_display):
 		self.line_display = line_display
+		#TODO Refactor: Maybe not rely on these directly?
 		self.low_border = line_display.low_border
+		self.low_bound = line_display.low_bound
 		self.high_border = line_display.high_border
 		
 	def reset(self):
@@ -41,6 +44,8 @@ class Line():
 		# Remember y increases as you go down the screen
 		if self.current_height < -self.high_border:
 			self.line_state.state = LineState.STATE_HIGH
+		elif self.current_height > -self.low_bound:
+			self.game_state.game_playing = False
 		elif self.current_height > -self.low_border:
 			self.line_state.state = LineState.STATE_LOW
 		else:

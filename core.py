@@ -11,7 +11,7 @@ class Core():
 	def __init__(self):
 		self.game_state = GameState()
 		self.player_threat = PlayerThreat(self.game_state)
-		self.line = Line()
+		self.line = Line(self.game_state)
 		self.controller = Controller(LineInterface(self.line))
 		controller_interface = ControllerInterface(self.controller)
 		self.player_controller = PlayerController(controller_interface)
