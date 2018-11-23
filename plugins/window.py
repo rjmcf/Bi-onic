@@ -29,8 +29,8 @@ class Window():
 		self.child_windows = []
 		
 	def calculate_dimensions(self, parent_corner, parent_size):
-		self.corner = parent_corner.br_of(parent_size.scale(self.corner_prop))
-		self.size = parent_size.scale(self.size_prop)
+		self.corner = parent_corner.br_of(parent_size.scale2D(self.corner_prop))
+		self.size = parent_size.scale2D(self.size_prop)
 		
 	# Called every frame to update the contents	
 	def update(self):

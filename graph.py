@@ -43,4 +43,4 @@ class GraphWindow(Window):
 		pyxel.rect(*self.corner, *self.corner.br_of(self.size), self.colour)
 		
 	def draw_after_children(self):
-		self.line_display.draw(self.corner.br_of(self.size.scale(self.start_prop)))
+		self.line_display.draw(self.corner.br_of(self.size.scale2D(self.start_prop)))

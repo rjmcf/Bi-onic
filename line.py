@@ -104,7 +104,7 @@ class LineDisplay():
 		for index in range(len(self.segments)-1, -1, -1):
 			if self.segments[index] < -self.high_bound:
 				if index == len(self.segments)-1:
-					self.arrow_sprite.draw(Point(x,start.y - self.high_bound))
+					self.arrow_sprite.draw(Point(x,start.y - self.high_bound), True)
 			else:
 				pyxel.circ(x, start.y + self.segments[index], self.width, self.color)
 			x -= 1

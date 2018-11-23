@@ -1,6 +1,6 @@
 import pyxel
 from plugins.window import Window
-from plugins.geometry import Point, Proportion2D
+from plugins.geometry import Point, Size, Vector, Proportion2D
 from palette_settings import PALETTE
 from resource_settings import RESOURCE
 
@@ -26,7 +26,7 @@ class PaletteViewer(DebugWindow):
 		
 	def draw_before_children(self):
 		for i in range(16):
-			self.draw_palette(self.x + 2 + (i % 4) * 50, self.y + 4 + (i // 4) * 15, i)
+			self.draw_palette(self.corner.x + 2 + (i % 4) * 50, self.corner.y + 4 + (i // 4) * 15, i)
 	
 # The editor can only display the default palette as far as I know. When editing an image,
 # you can't actually see how it will look if you use a different palette. This window
@@ -36,13 +36,10 @@ class ImageViewer(DebugWindow):
 	def __init__(self, palette):
 		super(ImageViewer,self).__init__("Image Viewer", pyxel.KEY_I)
 		self.img_bank = 0
-		self.source_top_left_x = 0
-		self.source_top_left_y = 0
-		self.source_sections_width = 4
-		self.source_sections_height = 4
+		self.source_top_left = Vector(0, 12)
+		self.source_sections = Size(4,8)
 		self.palette = palette
-		self.display_top_left_x = 15
-		self.display_top_left_y = 20
+		self.display_top_left = Vector(15,20)
 		
 	def update(self):
 		super(ImageViewer, self).update()
@@ -50,11 +47,11 @@ class ImageViewer(DebugWindow):
 			pyxel.load(RESOURCE)
 		
 	def draw_before_children(self):
-		pyxel.text(self.x,self.y,self.title, 7)
-		pyxel.text(self.x,self.y+6, "Showing from (" + str(self.source_top_left_x) + ", " + str(self.source_top_left_y) + ") to (" + str(self.source_top_left_x + self.source_sections_width) + ", " + str(self.source_top_left_y + self.source_sections_height) + ") of image bank " + str(self.img_bank), 7)
-		pyxel.text(self.x,self.y+12, "Using palette: {}".format(self.palette.name), 7)
-		pyxel.blt(self.x+self.display_top_left_x,self.y+self.display_top_left_y, self.img_bank, self.source_top_left_x * 8, self.source_top_left_y * 8, (self.source_top_left_x + self.source_sections_width) * 8, (self.source_top_left_y + self.source_sections_height)* 8)
-		pyxel.rectb(self.x+self.display_top_left_x-1,self.y+self.display_top_left_y-1, self.x+self.display_top_left_x  + self.source_sections_width * 8, self.y+self.display_top_left_y + self.source_sections_height * 8, 7)
+		pyxel.text(*self.corner,self.title, 7)
+		pyxel.text(*self.corner.br_of(Size(0,6)), "Showing from (" + str(self.source_top_left.x) + ", " + str(self.source_top_left.y) + ") to (" + str(self.source_top_left.x + self.source_sections.x) + ", " + str(self.source_top_left.y + self.source_sections.y) + ") of image bank " + str(self.img_bank), 7)
+		pyxel.text(*self.corner.br_of(Size(0,12)), "Using palette: {}".format(self.palette.name), 7)
+		pyxel.blt(*self.corner.translate(self.display_top_left), self.img_bank, *self.source_top_left.scale(8), *self.source_top_left.add(self.source_sections).scale(8))
+		pyxel.rectb(*self.corner.translate(self.display_top_left.add(Vector(-1,-1))), *self.corner.translate(self.display_top_left).br_of(self.source_sections.scale(8)), 7)
 		
 # Takes an image from the resource and tiles it as wide and tall as you want.
 # Can hot-reload the image using the Enter key.	
