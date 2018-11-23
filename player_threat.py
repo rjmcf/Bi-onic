@@ -1,4 +1,5 @@
 from plugins.window import Window
+from plugins.geometry import Proportion2D
 from bars import FillableBar
 
 class PlayerThreat():
@@ -21,14 +22,14 @@ class PlayerThreat():
 		self.set_player_threat_percent(0)
 
 class PlayerThreatWindow(Window):
-	def __init__(self, x_prop, y_prop, width_prop, height_prop, background_col, border_col):
-		super(PlayerThreatWindow, self).__init__(x_prop, y_prop, width_prop, height_prop)
+	def __init__(self, corner_prop, size_prop, background_col, border_col):
+		super(PlayerThreatWindow, self).__init__(corner_prop, size_prop)
 		
 		self.background_col = background_col
 		self.foreground_col = 8
 		self.border_col = border_col
 		
-		self.player_threat_display = FillableBar(0,0, 1,1, True,False, self.background_col,self.foreground_col, self.border_col)
+		self.player_threat_display = FillableBar(Proportion2D(0,0), Proportion2D(1,1), True,False, self.background_col,self.foreground_col, self.border_col)
 		self.child_windows = [self.player_threat_display]
 		
 	def set_player_threat_percent(self, threat_percent):

@@ -98,15 +98,15 @@ class LineDisplay():
 			# Remove from front
 			self.segments.pop(0)
 			
-	def draw(self, start_x, start_y):
-		x = start_x
+	def draw(self, start):
+		x = start.x
 		# Draw backwards from the starting point
 		for index in range(len(self.segments)-1, -1, -1):
 			if self.segments[index] < -self.high_bound:
 				if index == len(self.segments)-1:
-					self.arrow_sprite.draw(Point(x,start_y - self.high_bound))
+					self.arrow_sprite.draw(Point(x,start.y - self.high_bound))
 			else:
-				pyxel.circ(x, start_y + self.segments[index], self.width, self.color)
+				pyxel.circ(x, start.y + self.segments[index], self.width, self.color)
 			x -= 1
 		
 	

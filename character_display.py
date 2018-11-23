@@ -1,5 +1,6 @@
 import pyxel
 from plugins.window import Window
+from plugins.geometry import Proportion2D
 from bars import FillableBar
 from player_controller import DownAffector
 from player_threat import PlayerThreatWindow
@@ -7,13 +8,13 @@ from player_threat import PlayerThreatWindow
 # The window that shows the character's visible state, and the control UI. 
 class CharacterDisplay(Window):
 	def __init__(self):
-		super(CharacterDisplay, self).__init__(0,0, 1,0.4) 
+		super(CharacterDisplay, self).__init__(Proportion2D(0,0), Proportion2D(1,0.4))
 		self.background = 2
 		self.control_border = 7
-		self.up_control = FillableBar(0.9,0.1, 0.05,0.4, True,False, self.background,10, self.control_border)
-		self.down_control = FillableBar(0.9,0.5, 0.05,0.4, True,True, self.background,3, self.control_border)
-		self.down_reservoir = FillableBar(0.85,0.5, 0.05,0.4, True,False, self.background,3, self.control_border)
-		self.player_threat_display = PlayerThreatWindow(0.05,0.1, 0.05,0.8, self.background, self.control_border)
+		self.up_control = FillableBar(Proportion2D(0.9,0.1), Proportion2D(0.05,0.4), True,False, self.background,10, self.control_border)
+		self.down_control = FillableBar(Proportion2D(0.9,0.5), Proportion2D(0.05,0.4), True,True, self.background,3, self.control_border)
+		self.down_reservoir = FillableBar(Proportion2D(0.85,0.5), Proportion2D(0.05,0.4), True,False, self.background,3, self.control_border)
+		self.player_threat_display = PlayerThreatWindow(Proportion2D(0.05,0.1), Proportion2D(0.05,0.8), self.background, self.control_border)
 		self.child_windows = [self.up_control, self.down_control, self.down_reservoir, self.player_threat_display]
 		
 	def set_character_display_reservoir_interface(self, controller):
@@ -37,7 +38,7 @@ class CharacterDisplay(Window):
 		player_threat.set_display(self.player_threat_display)
 			
 	def draw_before_children(self):
-		pyxel.rect(self.x, self.y, self.x + self.width, self.y + self.height, self.background)		
+		pyxel.rect(*self.corner, *self.corner.br_of(self.size), self.background)		
 	
 # Interface for player to use the controls	
 class CharacterDisplayControlInterface():

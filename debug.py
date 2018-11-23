@@ -1,12 +1,13 @@
 import pyxel
 from plugins.window import Window
+from plugins.geometry import Point, Proportion2D
 from palette_settings import PALETTE
 from resource_settings import RESOURCE
 
 # The base for windows used for debugs. Defines a key the user can use to toggle to it
 class DebugWindow(Window):
 	def __init__(self, title, toggle_key):
-		super(DebugWindow, self).__init__(0,0, 1,1)
+		super(DebugWindow, self).__init__(Point(0,0), Proportion2D(1,1))
 		self.title = title
 		self.toggle_key = toggle_key
 

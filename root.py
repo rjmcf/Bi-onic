@@ -1,5 +1,6 @@
 import pyxel
 from plugins.window import TopLevelWindow, Window
+from plugins.geometry import Size, Point
 from palette_settings import PALETTE
 from graph import GraphWindow
 from character_display import CharacterDisplay
@@ -14,16 +15,16 @@ DEBUG = True
 #TODO Refactor: separate out some responsibilities.
 class Root(TopLevelWindow):
 	def __init__(self, game_state):
-		super(Root, self).__init__(255,160)
+		super(Root, self).__init__(Size(255,160))
 		self.caption = "Bi-onic"
 		self.palette = PALETTE
 		self.game_state = game_state
 		# This line needs to come before any Pyxel imports are used, otherwise they can't 
 		# be imported
-		pyxel.init(self.width, self.height, caption=self.caption, palette=self.palette.get_palette())
+		pyxel.init(*self.size, caption=self.caption, palette=self.palette.get_palette())
 		pyxel.load(RESOURCE)
 		self.character_display_window = CharacterDisplay()
-		self.graph_area = GraphWindow(0,0, self.width, self.height)
+		self.graph_area = GraphWindow(Point(0,0), self.size)
 		# Keep two copies of game windows, so we can switch away and back to them
 		self.windows = self.reserve_children = [self.character_display_window, self.graph_area]
 		if DEBUG:
