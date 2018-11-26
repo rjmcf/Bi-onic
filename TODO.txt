@@ -1,12 +1,18 @@
-Show Character in Display
-	- Respond to threat level
-	
 Add more to environmental factors, have events
 	- Need way to display fact that they're coming.
 	
 Main menu
 	- Input name
 	- Social Media links
+
+^^^^^ MINIMUM FOR GAME JAM ^^^^^
+
+Music and Sound
+	
+Tutorial
+
+Show Character in Display
+	- Respond to threat level
 	
 Modes
 	- Story
@@ -15,8 +21,6 @@ Modes
 	- Endless mode
 		- Score?
 
-Music and Sound
-	
-Tutorial
+^^^^^ IDEAL FOR GAME JAM ^^^^^
 
 Graphics polish
