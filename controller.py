@@ -50,6 +50,9 @@ class TimeDependentAffector():
 	def is_finished(self):
 		return self.time_elapsed > self.lifetime if self.lifetime != TimeDependentAffector.INFINITE else False
 		
+	def reset(self):
+		self.time_elapsed = 0
+		
 	# Updates the lifecycle, and returns the effect for this particular tick
 	def get_effect_for_this_tick(self):
 		self.time_elapsed += 1
