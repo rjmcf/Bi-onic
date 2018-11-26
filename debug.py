@@ -10,6 +10,49 @@ class DebugWindow(Window):
 		super(DebugWindow, self).__init__(Point(0,0), Proportion2D(1,1))
 		self.title = title
 		self.toggle_key = toggle_key
+		
+# Shows a representation of an affector, input (0,1), output (0,1)
+class GraphImager(DebugWindow):
+	def __init__(self):
+		super(GraphImager, self).__init__("Graph Imager", pyxel.KEY_G)
+		self.graph_tl = Point(10,10)
+		self.graph_size = Size(100, 70)
+		self.cutoff = 0.9
+		
+	def f(self, x):
+		if x < self.cutoff:
+			return self.up_curve(x / self.cutoff)
+		return -self.up_curve((x-self.cutoff) / (1-self.cutoff))
+			
+	def up_curve(self, t):
+		return t*(1-t)
+		
+	def g(self, x):
+		return x * (1-x)
+		
+	def h(self, x):
+		return -self.g(x)
+		
+	def draw_before_children(self):
+		pyxel.rectb(*self.graph_tl, *self.graph_tl.br_of(self.graph_size), 7)
+		pyxel.rectb(*self.graph_tl.br_of(Point(0, self.graph_size.y)), *self.graph_tl.br_of(self.graph_size.scale2D(Size(1,2))), 7)
+		self.draw_func_with_col(self.f, 8)
+		self.draw_func_with_col(self.g, 9)
+		self.draw_func_with_col(self.h, 10)
+		
+			
+	def draw_func_with_col(self, func, col):
+		for x in range(self.graph_size.x):
+			current_y = self.graph_size.y * func(x / self.graph_size.x)
+			current_y = self.graph_tl.y + self.graph_size.y - current_y
+			current_x = self.graph_tl.x + x
+			if x == 0:
+				previous_y = current_y
+				previous_x = current_x
+			pyxel.line(previous_x, previous_y, current_x, current_y, col)
+			previous_x = current_x
+			previous_y = current_y
+		
 
 # Simply shows the palette currently being used
 class PaletteViewer(DebugWindow):
