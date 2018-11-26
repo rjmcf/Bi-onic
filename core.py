@@ -23,6 +23,7 @@ class Core():
 		self.root_window.set_character_display_control_interface(self.player_controller)
 		
 	def update(self):		
+		#TODO Unfinished: Stopping line has disastrous effects
 		if self.game_state.game_playing:
 			self.player_threat.update()
 			self.player_controller.update()
@@ -32,8 +33,11 @@ class Core():
 			self.root_window.update()
 		else:
 			if pyxel.btnp(pyxel.KEY_R):
-				for thing in [self.game_state, self.player_threat, self.line, self.controller, 
-							  self.player_controller, self.environment, self.root_window]:
+				to_be_reset = [
+					self.game_state, self.player_threat, self.line, self.controller, 
+					self.player_controller, self.environment, self.root_window
+				]
+				for thing in to_be_reset:
 					thing.reset()
 		
 	def start(self):
