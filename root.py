@@ -27,6 +27,7 @@ class Root(TopLevelWindow):
 		self.character_display_window = CharacterDisplay()
 		self.graph_area = GraphWindow(Point(0,0), self.size)
 		self.restart_text = TextSprite("Press R to Restart", 7)
+		self.paused_text = TextSprite("Paused...", 7)
 		# Keep two copies of game windows, so we can switch away and back to them
 		self.windows = self.reserve_children = [self.character_display_window, self.graph_area]
 		if DEBUG:
@@ -73,5 +74,7 @@ class Root(TopLevelWindow):
 		
 		if not self.game_state.game_playing:
 			self.restart_text.draw(Point(0,0))
+		elif self.game_state.paused:
+			self.paused_text.draw(Point(0,0))
 		
 		
