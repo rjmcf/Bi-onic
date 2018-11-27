@@ -1,6 +1,7 @@
 import pyxel
 from plugins.window import TopLevelWindow, Window
 from plugins.geometry import Size, Point
+from plugins.sprite import TextSprite
 from palette_settings import PALETTE
 from graph import GraphWindow
 from character_display import CharacterDisplay
@@ -25,6 +26,7 @@ class Root(TopLevelWindow):
 		pyxel.load(RESOURCE)
 		self.character_display_window = CharacterDisplay()
 		self.graph_area = GraphWindow(Point(0,0), self.size)
+		self.restart_text = TextSprite("Press R to Restart", 7)
 		# Keep two copies of game windows, so we can switch away and back to them
 		self.windows = self.reserve_children = [self.character_display_window, self.graph_area]
 		if DEBUG:
@@ -50,6 +52,9 @@ class Root(TopLevelWindow):
 		
 	def set_character_display_control_interface(self, player_controller):
 		self.character_display_window.set_character_display_control_interface(player_controller)
+		
+	def set_character_display_text_interface(self, environment):
+		self.character_display_window.set_character_display_text_interface(environment)
 			
 	def reset(self):
 		for thing in [self.character_display_window]:
@@ -67,6 +72,6 @@ class Root(TopLevelWindow):
 		super(Root, self).draw()
 		
 		if not self.game_state.game_playing:
-			pyxel.text(0,0, "Press R to Restart", 7)
+			self.restart_text.draw(Point(0,0))
 		
 		

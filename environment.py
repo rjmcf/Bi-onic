@@ -1,3 +1,4 @@
+from plugins.sprite import TextSprite
 from controller import TimeDependentAffector
 from line import LineState
 from random import randint, random, choice
@@ -15,6 +16,9 @@ class Environment():
 		self.num_up = 10
 		self.SPECIAL_EVENTS = {"Poisoned": UpDownAffector(250, 500, 0.7, 1.7, self.controller_interface, True)}
 		self.num_special = 2
+		
+	def set_character_display_text_interface(self, character_display_text_interface):
+		self.character_display_text_interface = character_display_text_interface
 			
 	def reset(self):
 		self.controller_interface.add_affector(RandomPerturbationAffector())
@@ -32,7 +36,7 @@ class Environment():
 		if not self.count:
 			event_list = self.pick_random_event_list()
 			name = choice(list(event_list.keys()))
-			print(name, "chosen!")
+			self.character_display_text_interface.add_text(TextSprite(name, 7), 30)
 			event = event_list[name]
 			event.reset()
 			self.controller_interface.add_affector(event)

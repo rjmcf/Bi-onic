@@ -21,6 +21,7 @@ class Core():
 		self.root_window.set_line_display(self.line)
 		self.root_window.set_character_display_reservoir_interface(self.controller)
 		self.root_window.set_character_display_control_interface(self.player_controller)
+		self.root_window.set_character_display_text_interface(self.environment)
 		
 	def update(self):		
 		#TODO Unfinished: Stopping line has disastrous effects
