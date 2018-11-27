@@ -5,7 +5,7 @@ from palette_settings import PALETTE
 from graph import GraphWindow
 from character_display import CharacterDisplay
 from resource_settings import RESOURCE
-from debug import ImageViewer, Tiler, PaletteViewer, GraphImager
+from debug import ImageViewer, Tiler, PaletteViewer, GraphImager, TextImager
 
 # Determines whether we will allow DEBUG screens to be shown
 DEBUG = True
@@ -28,7 +28,10 @@ class Root(TopLevelWindow):
 		# Keep two copies of game windows, so we can switch away and back to them
 		self.windows = self.reserve_children = [self.character_display_window, self.graph_area]
 		if DEBUG:
-			self.debug_windows = [ImageViewer(self.palette), Tiler(), PaletteViewer(), GraphImager()]
+			self.debug_windows = [ImageViewer(self.palette), Tiler(), PaletteViewer(), GraphImager(), TextImager()]
+			if len(self.debug_windows) != len(set(self.debug_windows)):
+				print("debug windows with duplicate keys detected")
+				quit()
 				
 	def toggle_window(self, window):
 		if window in self.windows:

@@ -1,6 +1,7 @@
 import pyxel
 from plugins.window import Window
 from plugins.geometry import Point, Size, Vector, Proportion2D
+from plugins.sprite import TextSprite
 from palette_settings import PALETTE
 from resource_settings import RESOURCE
 
@@ -10,6 +11,26 @@ class DebugWindow(Window):
 		super(DebugWindow, self).__init__(Point(0,0), Proportion2D(1,1))
 		self.title = title
 		self.toggle_key = toggle_key
+		
+	def __eq__(self, other):
+		if isinstance(other, DebugWindow):
+			return self.toggle_key == other.toggle_key
+		else:
+			return super(DebugWindow, self).__eq__(other)
+		
+	def __hash__(self):
+		return self.toggle_key
+		
+class TextImager(DebugWindow):
+	def __init__(self):
+		super(TextImager, self).__init__("Text Imager", pyxel.KEY_S)
+		self.text_sprite = TextSprite("Sample Text", 8)
+		
+	def draw_before_children(self):	
+		pyxel.line(*self.size.scale2D(Size(0.5,0)), *self.size.scale2D(Size(0.5,1)), 7)
+		pyxel.line(*self.size.scale2D(Size(0,0.5)), *self.size.scale2D(Size(1,0.5)), 7)
+		self.text_sprite.draw(self.corner.br_of(self.size.scale2D(Size(0.5,0.5))), True, True)
+		
 		
 # Shows a representation of an affector, input (0,1), output (0,1)
 class GraphImager(DebugWindow):
