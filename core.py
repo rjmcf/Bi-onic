@@ -65,6 +65,8 @@ class Core():
 			self.main_menu.move_down()
 		elif pyxel.btnp(pyxel.KEY_ENTER):
 			self.main_menu.select()
+		# Allow debug windows still
+		self.root_window.update()
 			
 	def start_game(self):
 		self.game_state.start_game()

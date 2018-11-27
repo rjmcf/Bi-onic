@@ -40,8 +40,9 @@ class Root(TopLevelWindow):
 				
 	def toggle_debug_window(self, window):
 		if window in self.windows:
-			self.windows = self.game_windows
+			self.windows = self.previous_windows
 		else:
+			self.previous_windows = self.windows
 			self.windows = [window]
 			
 	def switch_to_game(self):
