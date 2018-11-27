@@ -15,6 +15,7 @@ class CharacterDisplay(Window):
 		self.down_control = FillableBar(Proportion2D(0.9,0.5), Proportion2D(0.05,0.4), True,True, self.background,3, self.control_border)
 		self.down_reservoir = FillableBar(Proportion2D(0.85,0.5), Proportion2D(0.05,0.4), True,False, self.background,3, self.control_border)
 		self.player_threat_display = PlayerThreatWindow(Proportion2D(0.05,0.1), Proportion2D(0.05,0.8), self.background, self.control_border)
+		self.active_text_sprites = {}
 		self.child_windows = [self.up_control, self.down_control, self.down_reservoir, self.player_threat_display]
 		
 	def set_character_display_reservoir_interface(self, controller):
@@ -23,10 +24,14 @@ class CharacterDisplay(Window):
 	def set_character_display_control_interface(self, player_controller):
 		player_controller.set_character_display_control_interface(CharacterDisplayControlInterface(self))
 		
+	def set_character_display_text_interface(self, environment):
+		environment.set_character_display_text_interface(CharacterDisplayTextInterface(self))
+		
 	def reset(self):
 		self.up_control.set_bar(0)
 		self.down_control.set_bar(0)
 		self.down_reservoir.set_bar(0)
+		self.active_text_sprites = {}
 			
 	def empty_down_reservoir(self):
 		self.down_reservoir.set_bar(0)
@@ -36,9 +41,20 @@ class CharacterDisplay(Window):
 		
 	def set_player_threat_display(self, player_threat):
 		player_threat.set_display(self.player_threat_display)
+		
+	def add_text(self, text_sprite, duration):
+		self.active_text_sprites[text_sprite] = duration
+		
+	def update(self):
+		for text_sprite in list(self.active_text_sprites.keys()):
+			self.active_text_sprites[text_sprite] -= 1
+			if self.active_text_sprites[text_sprite] == 0:
+				del self.active_text_sprites[text_sprite]
 			
 	def draw_before_children(self):
-		pyxel.rect(*self.corner, *self.corner.br_of(self.size), self.background)		
+		pyxel.rect(*self.corner, *self.corner.br_of(self.size), self.background)
+		for text_sprite in self.active_text_sprites:
+			text_sprite.draw(self.corner.translate(self.size.scale2D(Proportion2D(0.5,0.5))), True, True)		
 	
 # Interface for player to use the controls	
 class CharacterDisplayControlInterface():
@@ -63,6 +79,13 @@ class CharacterDisplayReservoirInterface():
 		if (isinstance(affector, DownAffector)):
 			ticks_left = affector.lifetime + 1 - affector.time_elapsed
 			self.character_display.add_down_reservoir_amount(ticks_left / 1000)
+			
+class CharacterDisplayTextInterface():
+	def __init__(self, character_display):
+		self.character_display = character_display
+		
+	def add_text(self, text_sprite, duration):
+		self.character_display.add_text(text_sprite, duration)
 			
 class ThreatDisplayInterface():
 	def __init__(self, character_display):
