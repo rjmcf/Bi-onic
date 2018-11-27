@@ -1,8 +1,4 @@
-Add more to environmental factors, have events
-	- Need way to display fact that they're coming.
-	
 Main menu
-	- Input name
 	- Social Media links
 
 ^^^^^ MINIMUM FOR GAME JAM ^^^^^
@@ -16,6 +12,7 @@ Show Character in Display
 	
 Modes
 	- Story
+		- Input name
 		- End game
 		- Dialogue
 	- Endless mode
