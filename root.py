@@ -4,6 +4,7 @@ from plugins.geometry import Size, Point
 from plugins.sprite import TextSprite
 from palette_settings import PALETTE
 from graph import GraphWindow
+from main_menu import MainMenuWindow
 from character_display import CharacterDisplay
 from resource_settings import RESOURCE
 from debug import ImageViewer, Tiler, PaletteViewer, GraphImager, TextImager
@@ -15,7 +16,7 @@ DEBUG = True
 # sure all the components have the data they require
 #TODO Refactor: separate out some responsibilities.
 class Root(TopLevelWindow):
-	def __init__(self, game_state):
+	def __init__(self, game_state, main_menu):
 		super(Root, self).__init__(Size(255,160))
 		self.caption = "Bi-onic"
 		self.palette = PALETTE
@@ -28,19 +29,26 @@ class Root(TopLevelWindow):
 		self.graph_area = GraphWindow(Point(0,0), self.size)
 		self.restart_text = TextSprite("Press R to Restart", 7)
 		self.paused_text = TextSprite("Paused...", 7)
-		# Keep two copies of game windows, so we can switch away and back to them
-		self.windows = self.reserve_children = [self.character_display_window, self.graph_area]
+		self.game_windows = [self.character_display_window, self.graph_area]
+		self.main_menu_window = MainMenuWindow(main_menu)
+		self.main_menu_windows = [self.main_menu_window]
 		if DEBUG:
 			self.debug_windows = [ImageViewer(self.palette), Tiler(), PaletteViewer(), GraphImager(), TextImager()]
 			if len(self.debug_windows) != len(set(self.debug_windows)):
 				print("debug windows with duplicate keys detected")
 				quit()
 				
-	def toggle_window(self, window):
+	def toggle_debug_window(self, window):
 		if window in self.windows:
-			self.windows = self.reserve_children
+			self.windows = self.game_windows
 		else:
 			self.windows = [window]
+			
+	def switch_to_game(self):
+		self.windows = self.game_windows
+		
+	def switch_to_main_menu(self):
+		self.windows = self.main_menu_windows
 			
 	def set_player_threat_display(self, player_threat):
 		self.character_display_window.set_player_threat_display(player_threat)
@@ -56,6 +64,9 @@ class Root(TopLevelWindow):
 		
 	def set_character_display_text_interface(self, environment):
 		self.character_display_window.set_character_display_text_interface(environment)
+		
+	def set_main_menu_display(self, main_menu):
+		main_menu.set_display(self.main_menu_window)
 			
 	def reset(self):
 		for thing in [self.character_display_window]:
@@ -66,15 +77,16 @@ class Root(TopLevelWindow):
 		if DEBUG:
 			for debug_window in self.debug_windows:
 				if pyxel.btnp(debug_window.toggle_key):
-					self.toggle_window(debug_window)		
+					self.toggle_debug_window(debug_window)		
 			
 	def draw(self):
 		pyxel.cls(0)
 		super(Root, self).draw()
 		
-		if not self.game_state.game_playing:
-			self.restart_text.draw(Point(0,0))
-		elif self.game_state.paused:
-			self.paused_text.draw(Point(0,0))
+		if self.game_state.in_game_mode():
+			if not self.game_state.game_playing:
+				self.restart_text.draw(Point(0,0))
+			elif self.game_state.paused:
+				self.paused_text.draw(Point(0,0))
 		
 		

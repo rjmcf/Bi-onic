@@ -98,7 +98,8 @@ class LineDisplay():
 			x -= 1
 		
 	
-			
+	
+# TODO Refactor: Remove state variable, just use for values			
 # State recording information about the line	
 class LineState():
 	STATE_NORMAL = 0

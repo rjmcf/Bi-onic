@@ -24,9 +24,9 @@ class TextSprite():
 		self.pixel_width = len(text) * self.char_width
 		self.pixel_height = self.char_height
 		
-	def draw(self, at, centered_x = False, centered_y = False):
+	def draw(self, at, centered_x = False, centered_y = False, colour = None):
 		if centered_x:
 			at = at.translate(Vector(-self.pixel_width/2,0))
 		if centered_y:
 			at = at.translate(Vector(0, -self.pixel_height/2))
-		pyxel.text(*at, self.text, self.col)
+		pyxel.text(*at, self.text, colour if colour else self.col)
