@@ -5,8 +5,6 @@ from plugins.sprite import Sprite
 
 # Represents the line drawn on the graph. 
 #TODO Unfinished: Allow changing of speed
-#TODO Unfinished: Restrict line to stay within bounds, rendering arrows in the event that 
-# 	it doesn't.
 #TODO Unfinished: Allow for jumps of more than 1 * width to not break the line.
 class Line():
 	def __init__(self, game_state):
@@ -18,7 +16,6 @@ class Line():
 		
 	def set_display(self, line_display):
 		self.line_display = line_display
-		#TODO Refactor: Maybe not rely on these directly?
 		self.low_border = line_display.low_border
 		self.low_bound = line_display.low_bound
 		self.high_border = line_display.high_border

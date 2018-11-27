@@ -14,7 +14,6 @@ DEBUG = True
 	
 # Currently owns the game as a whole, which boils down to setting up the layout and making
 # sure all the components have the data they require
-#TODO Refactor: separate out some responsibilities.
 class Root(TopLevelWindow):
 	def __init__(self, game_state, main_menu):
 		super(Root, self).__init__(Size(255,160))
