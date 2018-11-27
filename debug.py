@@ -78,7 +78,7 @@ class GraphImager(DebugWindow):
 # Simply shows the palette currently being used
 class PaletteViewer(DebugWindow):
 	def __init__(self):
-		super(PaletteViewer, self).__init__("Palette Viewer", pyxel.KEY_P)
+		super(PaletteViewer, self).__init__("Palette Viewer", pyxel.KEY_O)
 		
 	def draw_palette(self, x, y, col):
 		col_val = PALETTE.get_palette()[col]

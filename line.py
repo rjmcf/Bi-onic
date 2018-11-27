@@ -15,7 +15,6 @@ class Line():
 		# Record positions of segments as height above some "middle" value
 		self.current_height = 0
 		self.velocity = 0
-		self.started = False
 		
 	def set_display(self, line_display):
 		self.line_display = line_display
@@ -26,20 +25,9 @@ class Line():
 		
 	def reset(self):
 		self.current_height = 0
-		self.started = False
 		self.line_display.reset()
 		
-	def toggle_started(self):	
-		self.started = not self.started
-		
 	def update(self):
-		if pyxel.btnp(pyxel.KEY_SPACE):
-			self.toggle_started()
-			
-		if not self.started:
-			self.line_state.state = LineState.STATE_OFF
-			return
-			
 		self.current_height += self.velocity
 		self.velocity = 0
 		
@@ -113,10 +101,9 @@ class LineDisplay():
 			
 # State recording information about the line	
 class LineState():
-	STATE_OFF = 0
-	STATE_NORMAL = 1
-	STATE_HIGH = 2
-	STATE_LOW = 3
+	STATE_NORMAL = 0
+	STATE_HIGH = 1
+	STATE_LOW = 2
 	
 	def __init__(self):
-		self.state = LineState.STATE_OFF	
+		self.state = LineState.STATE_NORMAL	

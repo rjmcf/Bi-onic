@@ -26,11 +26,15 @@ class Core():
 	def update(self):		
 		#TODO Unfinished: Stopping line has disastrous effects
 		if self.game_state.game_playing:
-			self.player_threat.update()
-			self.player_controller.update()
-			self.controller.update()
-			self.line.update()
-			self.environment.update()
+			if pyxel.btnp(pyxel.KEY_P):
+				self.game_state.toggle_paused()
+				
+			if not self.game_state.paused:
+				self.player_threat.update()
+				self.player_controller.update()
+				self.controller.update()
+				self.line.update()
+				self.environment.update()
 			self.root_window.update()
 		else:
 			if pyxel.btnp(pyxel.KEY_R):
