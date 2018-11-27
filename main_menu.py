@@ -3,12 +3,18 @@ from plugins.geometry import Point, Proportion2D, Size
 from plugins.window import Window
 from plugins.sprite import Sprite, TextSprite
 
+# Represents the possible options for the Main Menu
+# Defines the methods that the logical and visual representations of the Main Menu must
+# provide.
 class MainMenuOptionHolder():
 	def start_game(self):
 		return self.start_game()
 	def quit(self):
 		return self.quit()
-
+		
+# Contains the logic for the Main Menu
+#TODO Refactor: Possibly mix logic and representation here? The benefits of separation 
+# may be outweighed by the complexity of trying to keep both in sync
 class MainMenu(MainMenuOptionHolder):
 	def __init__(self, start_game_interface):	
 		self.options = [MainMenuOptionHolder.start_game, MainMenuOptionHolder.quit]
@@ -36,7 +42,7 @@ class MainMenu(MainMenuOptionHolder):
 	def quit(self):
 		pyxel.quit()
 		
-		
+# The visual representation of the Main Menu	
 class MainMenuWindow(Window, MainMenuOptionHolder):
 	def __init__(self, main_menu):
 		super(MainMenuWindow, self).__init__(Point(0,0), Proportion2D(1,1))

@@ -1,11 +1,16 @@
+# Represents Game Modes that the game can be in
 class GameMode():
 	MAIN_MENU = 0
 	GAME = 1
 
+# Records the current state of the game including:
+#	Our current mode
+#	Whether the player is alive
+#	Whether the game is paused
 class GameState():
 	def __init__(self):
 		self.game_playing = True
-		self.paused = True
+		self.paused = False
 		self.game_mode = GameMode.MAIN_MENU
 		
 	def start_game(self):
@@ -25,5 +30,5 @@ class GameState():
 		
 	def reset(self):
 		self.game_playing = True
-		self.paused = True
+		self.paused = False
 		

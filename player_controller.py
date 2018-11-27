@@ -1,7 +1,7 @@
 import pyxel
 from controller import TimeDependentAffector
 
-# Used by the Player to have an effect on the graph, via the ControlInterface.
+# Used by the Player to have an effect on the graph.
 class PlayerController():
 	def __init__(self, controller_interface):
 		self.controller_interface = controller_interface
@@ -51,7 +51,8 @@ class PlayerController():
 			down_affector = DownAffector(400, 1000 * self.down_percent)
 			self.controller_interface.add_affector(down_affector)
 			self.down_percent = 0
-			
+
+# Affector for the Up control	
 class UpAffector(TimeDependentAffector):
 	def __init__(self, lifetime, scale):
 		super(UpAffector, self).__init__(lifetime)
@@ -61,6 +62,7 @@ class UpAffector(TimeDependentAffector):
 		time = time / self.lifetime
 		return self.scale / self.lifetime * (1 - time) * (1 - time)
 		
+# Affector for the down control
 class DownAffector(TimeDependentAffector):
 	def __init__(self, lifetime, scale):
 		super(DownAffector, self).__init__(lifetime)

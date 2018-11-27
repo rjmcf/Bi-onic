@@ -2,6 +2,7 @@ from plugins.window import Window
 from plugins.geometry import Proportion2D
 from bars import FillableBar
 
+# Logic for the threat to the player
 class PlayerThreat():
 	def __init__(self, game_state):
 		self.player_threat_percent = 0
@@ -21,6 +22,7 @@ class PlayerThreat():
 	def reset(self):
 		self.set_player_threat_percent(0)
 
+# Visual representation of the current threat to the player
 class PlayerThreatWindow(Window):
 	def __init__(self, corner_prop, size_prop, background_col, border_col):
 		super(PlayerThreatWindow, self).__init__(corner_prop, size_prop)
@@ -35,6 +37,8 @@ class PlayerThreatWindow(Window):
 	def set_player_threat_percent(self, threat_percent):
 		self.player_threat_display.set_bar(threat_percent)
 		
+# Interface allowing the threat to the player to be set depending on how long they've been
+# in the danger zones.
 class PlayerThreatInterface():
 	def __init__(self, player_threat):
 		self.player_threat = player_threat

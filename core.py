@@ -8,8 +8,14 @@ from controller import Controller, ControllerInterface
 from player_threat import PlayerThreat, PlayerThreatInterface
 from main_menu import MainMenu
 
+# Manages the overall functioning of the game. Owns all the components, and makes sure 
+# they are updated correctly.
+# Also owns root window, and makes sure it knows when to draw.
+# If a logical component needs a reference to a display element, the convention is to pass
+# the logical component to the root window and allow it to set the correct display element.
 class Core():
 	def __init__(self):
+		# Setup Logical stuff
 		self.game_state = GameState()
 		self.player_threat = PlayerThreat(self.game_state)
 		self.line = Line(self.game_state)
@@ -18,6 +24,8 @@ class Core():
 		self.player_controller = PlayerController(controller_interface)
 		self.environment = Environment(controller_interface, PlayerThreatInterface(self.player_threat), LineStateInterface(self.line))
 		self.main_menu = MainMenu(StartGameInterface(self))
+		
+		# Setup display stuff
 		self.root_window = Root(self.game_state, self.main_menu)
 		self.root_window.set_player_threat_display(self.player_threat)
 		self.root_window.set_line_display(self.line)
@@ -26,6 +34,7 @@ class Core():
 		self.root_window.set_character_display_text_interface(self.environment)
 		self.root_window.set_main_menu_display(self.main_menu)
 		
+		# State that we start at the Main Menu
 		self.root_window.switch_to_main_menu()
 		
 	def update(self):		
@@ -48,6 +57,7 @@ class Core():
 				self.controller.update()
 				self.line.update()
 				self.environment.update()
+			# Enable us to show debug even when paused
 			self.root_window.update()
 		else:
 			if pyxel.btnp(pyxel.KEY_R):
@@ -75,6 +85,7 @@ class Core():
 	def start(self):
 		pyxel.run(self.update, self.root_window.draw)
 		
+# Interface allowing MainMenu to start the game
 class StartGameInterface:
 	def __init__(self, core):
 		self.core = core

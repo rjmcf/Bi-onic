@@ -3,18 +3,29 @@ from controller import TimeDependentAffector
 from line import LineState
 from random import randint, random, choice
 
+# Controls the environmental effects on the line. Essentially the enemy of the player.
 class Environment():
 	def __init__(self, controller_interface, threat_interface, line_state_interface):
 		self.controller_interface = controller_interface
 		self.controller_interface.add_affector(RandomPerturbationAffector())
 		self.threat_interface = threat_interface
 		self.line_state_interface = line_state_interface
+		# time before first Event
 		self.count = randint(200, 300)
+		
+		# Possible events that exclusively push the line down
 		self.DOWN_EVENTS = {"High Exertion" : SlowStartStopAffector(1300, 100, False)}
+		# Weight assigned to down events in weighted random selection
 		self.num_down = 10
+		
+		# Possible events that exclusively push the line up
 		self.UP_EVENTS = {"Time Pressure" : SlowStartStopAffector(1500, 300, True)}
+		# Weight assigned to up events in weighted random selection
 		self.num_up = 10
+		
+		# Possible events that have a more complex effect on the line
 		self.SPECIAL_EVENTS = {"Poisoned": UpDownAffector(250, 500, 0.7, 1.7, self.controller_interface, True)}
+		# Weight assigned to special events in weighted random selection
 		self.num_special = 2
 		
 	def set_character_display_text_interface(self, character_display_text_interface):
@@ -41,7 +52,9 @@ class Environment():
 			event.reset()
 			self.controller_interface.add_affector(event)
 			self.count = self.set_timer()			
-			
+	
+	# Picks random event list based on weighting
+	#TODO Investigate: Consider implementing weighted random options as plugin.	
 	def pick_random_event_list(self):
 		total = self.num_down + self.num_up + self.num_special
 		self.chance_down = self.num_down / total
@@ -54,9 +67,12 @@ class Environment():
 		else:
 			return self.SPECIAL_EVENTS
 			
+	# Time between events
 	def set_timer(self):
 		return randint(400, 800)
 			
+			
+# Affector that eases in and out of an effect, pushing either up or down
 class SlowStartStopAffector(TimeDependentAffector):
 	def __init__(self, severity, lifetime, pushing_up):
 		super(SlowStartStopAffector, self).__init__(lifetime)
@@ -69,7 +85,9 @@ class SlowStartStopAffector(TimeDependentAffector):
 		
 	def curve(self, percent_time):
 		return percent_time*percent_time*(1-percent_time)*(1-percent_time)
-		
+	
+# Affector that pushes the line first in one direction then the other, by spawning the 
+# inverse affector at the end of its life.	
 class UpDownAffector(TimeDependentAffector):
 	def __init__(self, severity, lifetime, change_point, severity_difference, controller_interface, up_initially):
 		super(UpDownAffector, self).__init__(lifetime * change_point)
@@ -91,7 +109,7 @@ class UpDownAffector(TimeDependentAffector):
 		inverse_affector = InverseAffector(self.severity * self.severity_difference, self.inverse_lifetime, self.curve)
 		self.controller_interface.add_affector(inverse_affector)
 		
-	
+# Twin of the UpDownAffector, represents the second portion of that effect.
 class InverseAffector(TimeDependentAffector):
 	def __init__(self, severity, lifetime, curve_func):
 		super(InverseAffector, self).__init__(lifetime)
@@ -100,7 +118,8 @@ class InverseAffector(TimeDependentAffector):
 			
 	def f(self, time):
 		return -self.severity * self.curve(time / self.lifetime) / self.lifetime
-			
+		
+# Causes random movements in the line, gives it some life.	
 class RandomPerturbationAffector(TimeDependentAffector):
 	def __init__(self):
 		super(RandomPerturbationAffector, self).__init__(-1)
@@ -109,6 +128,7 @@ class RandomPerturbationAffector(TimeDependentAffector):
 	def f(self, time):
 		self.count -= 1
 		if not self.count:
+			# How far to move
 			val = randint(1,2)
 			pos = randint(0,1)
 			self.count = self.set_timer()
@@ -116,5 +136,6 @@ class RandomPerturbationAffector(TimeDependentAffector):
 		return 0
 		
 	def set_timer(self):
+		# Time between movements
 		return randint(10,50)
 		

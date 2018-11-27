@@ -1,14 +1,19 @@
 import pyxel
-
 from plugins.geometry import Point, Size
 from plugins.sprite import Sprite
+
+# Possible states for the line	
+class LineState():
+	STATE_NORMAL = 0
+	STATE_HIGH = 1
+	STATE_LOW = 2
 
 # Represents the line drawn on the graph. 
 #TODO Unfinished: Allow changing of speed
 #TODO Unfinished: Allow for jumps of more than 1 * width to not break the line.
 class Line():
 	def __init__(self, game_state):
-		self.line_state = LineState()
+		self.line_state = LineState.STATE_NORMAL
 		self.game_state = game_state
 		# Record positions of segments as height above some "middle" value
 		self.current_height = 0
@@ -31,13 +36,13 @@ class Line():
 		# Change state depending on current height
 		# Remember y increases as you go down the screen
 		if self.current_height < -self.high_border:
-			self.line_state.state = LineState.STATE_HIGH
+			self.line_state = LineState.STATE_HIGH
 		elif self.current_height > -self.low_bound:
 			self.game_state.game_playing = False
 		elif self.current_height > -self.low_border:
-			self.line_state.state = LineState.STATE_LOW
+			self.line_state = LineState.STATE_LOW
 		else:
-			self.line_state.state = LineState.STATE_NORMAL
+			self.line_state = LineState.STATE_NORMAL
 			
 		self.line_display.set_current_height(self.current_height)
 		
@@ -45,6 +50,7 @@ class Line():
 	def add_velocity(self, velocity_adjustment):
 		self.velocity += velocity_adjustment
 		
+# Interface used by the controller to add velocity to the line
 class LineInterface():
 	def __init__(self, line):
 		self.line = line
@@ -52,13 +58,15 @@ class LineInterface():
 	def add_velocity(self, velocity_adjustment):
 		self.line.add_velocity(velocity_adjustment)
 		
+# Interface used to get the current state of the line
 class LineStateInterface():
 	def __init__(self, line):
-		self.line_state = line.line_state
+		self.line = line
 		
 	def get_current_line_state(self):
-		return self.line_state.state
-			
+		return self.line.line_state
+		
+# The visual representation of the Line	
 class LineDisplay():
 	def __init__(self, length, low_border, high_border, low_bound, high_bound, color, width = 0):
 		self.length = length
@@ -93,15 +101,3 @@ class LineDisplay():
 			else:
 				pyxel.circ(x, start.y + self.segments[index], self.width, self.color)
 			x -= 1
-		
-	
-	
-# TODO Refactor: Remove state variable, just use for values			
-# State recording information about the line	
-class LineState():
-	STATE_NORMAL = 0
-	STATE_HIGH = 1
-	STATE_LOW = 2
-	
-	def __init__(self):
-		self.state = LineState.STATE_NORMAL	

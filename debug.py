@@ -5,7 +5,8 @@ from plugins.sprite import TextSprite
 from palette_settings import PALETTE
 from resource_settings import RESOURCE
 
-# The base for windows used for debugs. Defines a key the user can use to toggle to it
+# The base for windows used for debugs. Defines a key the user can use to toggle to it,
+# which defines the equality relation
 class DebugWindow(Window):
 	def __init__(self, title, toggle_key):
 		super(DebugWindow, self).__init__(Point(0,0), Proportion2D(1,1))
@@ -13,6 +14,7 @@ class DebugWindow(Window):
 		self.toggle_key = toggle_key
 		
 	def __eq__(self, other):
+		# We only want to compare ourselves by key with other Debug windows
 		if isinstance(other, DebugWindow):
 			return self.toggle_key == other.toggle_key
 		else:
@@ -21,6 +23,7 @@ class DebugWindow(Window):
 	def __hash__(self):
 		return self.toggle_key
 		
+# Allows for debugging of TextSprites
 class TextImager(DebugWindow):
 	def __init__(self):
 		super(TextImager, self).__init__("Text Imager", pyxel.KEY_S)

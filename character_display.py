@@ -5,7 +5,11 @@ from bars import FillableBar
 from player_controller import DownAffector
 from player_threat import PlayerThreatWindow
 
-# The window that shows the character's visible state, and the control UI. 
+# The window that shows the 'HUD' elements, including:
+# 	Control UI
+#	Threat UI
+#	Text descriptions of active events
+# TODO Unfinished: Show Character state
 class CharacterDisplay(Window):
 	def __init__(self):
 		super(CharacterDisplay, self).__init__(Proportion2D(0,0), Proportion2D(1,0.4))
@@ -15,6 +19,7 @@ class CharacterDisplay(Window):
 		self.down_control = FillableBar(Proportion2D(0.9,0.5), Proportion2D(0.05,0.4), True,True, self.background,3, self.control_border)
 		self.down_reservoir = FillableBar(Proportion2D(0.85,0.5), Proportion2D(0.05,0.4), True,False, self.background,3, self.control_border)
 		self.player_threat_display = PlayerThreatWindow(Proportion2D(0.05,0.1), Proportion2D(0.05,0.8), self.background, self.control_border)
+		# Maintain mapping of active sprites to the amount of time we should display them for
 		self.active_text_sprites = {}
 		self.child_windows = [self.up_control, self.down_control, self.down_reservoir, self.player_threat_display]
 		
@@ -56,7 +61,7 @@ class CharacterDisplay(Window):
 		for text_sprite in self.active_text_sprites:
 			text_sprite.draw(self.corner.translate(self.size.scale2D(Proportion2D(0.5,0.5))), True, True)		
 	
-# Interface for player to use the controls	
+# Interface for player_controller to use the control UI
 class CharacterDisplayControlInterface():
 	def __init__(self, character_display):
 		self.character_display = character_display
@@ -80,13 +85,15 @@ class CharacterDisplayReservoirInterface():
 			ticks_left = affector.lifetime + 1 - affector.time_elapsed
 			self.character_display.add_down_reservoir_amount(ticks_left / 1000)
 			
+# Interface for the environment to display descriptions of active events
 class CharacterDisplayTextInterface():
 	def __init__(self, character_display):
 		self.character_display = character_display
 		
 	def add_text(self, text_sprite, duration):
 		self.character_display.add_text(text_sprite, duration)
-			
+	
+# Interface for environment to use Threat UI		
 class ThreatDisplayInterface():
 	def __init__(self, character_display):
 		self.character_display = character_display

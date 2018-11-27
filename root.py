@@ -12,8 +12,9 @@ from debug import ImageViewer, Tiler, PaletteViewer, GraphImager, TextImager
 # Determines whether we will allow DEBUG screens to be shown
 DEBUG = True
 	
-# Currently owns the game as a whole, which boils down to setting up the layout and making
-# sure all the components have the data they require
+# Represents the parent window that contains all the others. Controls switching of windows
+# for debug and menu purposes. 
+# Makes sure that all child windows get told to draw at the right time
 class Root(TopLevelWindow):
 	def __init__(self, game_state, main_menu):
 		super(Root, self).__init__(Size(255,160))

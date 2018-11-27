@@ -1,5 +1,6 @@
 from plugins.geometry import Point
 
+# Represents the TopLevelWindow, ie, the parent of all other windows
 class TopLevelWindow():
 	def __init__(self, size):
 		self.size = size
@@ -31,8 +32,7 @@ class Window():
 	def calculate_dimensions(self, parent_corner, parent_size):
 		self.corner = parent_corner.br_of(parent_size.scale2D(self.corner_prop))
 		self.size = parent_size.scale2D(self.size_prop)
-		
-	# Called every frame to update the contents	
+			
 	def update(self):
 		for window in self.child_windows:
 			window.update()
