@@ -35,6 +35,11 @@ class Palette():
 
 # The standard palette to be used while playing the game
 game_palette = Palette("game")
+game_palette.c1 = 0x7e2553
+game_palette.c2 = 0x8b4226
+game_palette.c10 = 0xaa004d
+game_palette.c11 = 0xdd9060
+game_palette.c14 = 0xffec27
 
 # The palette used to render characters for close up images on social media
 character_palette = Palette("character")

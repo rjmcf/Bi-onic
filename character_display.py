@@ -9,9 +9,9 @@ from player_threat import PlayerThreatWindow
 class CharacterDisplay(Window):
 	def __init__(self):
 		super(CharacterDisplay, self).__init__(Proportion2D(0,0), Proportion2D(1,0.4))
-		self.background = 2
+		self.background = 1
 		self.control_border = 7
-		self.up_control = FillableBar(Proportion2D(0.9,0.1), Proportion2D(0.05,0.4), True,False, self.background,10, self.control_border)
+		self.up_control = FillableBar(Proportion2D(0.9,0.1), Proportion2D(0.05,0.4), True,False, self.background,14, self.control_border)
 		self.down_control = FillableBar(Proportion2D(0.9,0.5), Proportion2D(0.05,0.4), True,True, self.background,3, self.control_border)
 		self.down_reservoir = FillableBar(Proportion2D(0.85,0.5), Proportion2D(0.05,0.4), True,False, self.background,3, self.control_border)
 		self.player_threat_display = PlayerThreatWindow(Proportion2D(0.05,0.1), Proportion2D(0.05,0.8), self.background, self.control_border)
