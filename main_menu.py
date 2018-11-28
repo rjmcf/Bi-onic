@@ -18,7 +18,7 @@ class MainMenu(Window):
 		self.start_game_interface = start_game_interface
 		self.bg_col = 0
 		self.text_col = 7
-		self.selected_col = 8
+		self.selected_col = 14
 		self.character_sprite = Sprite(Point(0,0), Size(32,40), 0, 0)
 		self.options = [
 			MainMenuOption("Start Game", self.text_col, lambda main_menu: main_menu.start_game_interface.start_game()),
@@ -26,6 +26,8 @@ class MainMenu(Window):
 		]	
 		self.num_options = len(self.options)
 		self.current_option = 0
+		self.credit_text = TextSprite("By Robin McFarland: @RjmcfDev", 7)
+		self.title = Sprite(Point(0,96), Size(67,18), 0, 0)
 		
 	def move_down(self):
 		self.current_option = (self.current_option + 1) % self.num_options
@@ -37,8 +39,12 @@ class MainMenu(Window):
 		self.options[self.current_option].func(self)
 		
 	def draw_before_children(self):
+		pyxel.rect(*self.corner, *self.corner.br_of(self.size), self.bg_col)
 		self.character_sprite.draw(self.corner.br_of(self.size.scale2D(Proportion2D(0.5,0.2))), True, True)
-		distance_down = 0.5
+		self.title.draw(self.corner.br_of(self.size.scale2D(Proportion2D(0.5,0.4))), True, True)
+		distance_down = 0.6
 		seperator = 0.1
 		for i, option in enumerate(self.options):
 			option.draw(self.corner.br_of(self.size.scale2D(Proportion2D(0.5,distance_down + i*seperator))), True, True, self.selected_col if i == self.current_option else None)
+		self.credit_text.draw(self.corner.br_of(Size(0, self.size.y * 0.95)))	
+		

@@ -1,11 +1,6 @@
 Update Tiler
 Refactor out colours into file so can easily see clashes
 
-Main menu
-	- Social Media links
-
-^^^^^ MINIMUM FOR GAME JAM ^^^^^
-
 Music and Sound
 	
 Tutorial
