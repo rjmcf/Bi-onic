@@ -5,6 +5,7 @@ from plugins.sprite import Anchor
 from bars import FillableBar
 from player_controller import DownAffector
 from player_threat import PlayerThreatWindow
+from score_keeper import ScoreDisplayWindow
 
 # The window that shows the 'HUD' elements, including:
 # 	Control UI
@@ -20,9 +21,10 @@ class CharacterDisplay(Window):
 		self.down_control = FillableBar(Proportion2D(0.9,0.5), Proportion2D(0.05,0.4), True,True, self.background,3, self.control_border)
 		self.down_reservoir = FillableBar(Proportion2D(0.85,0.5), Proportion2D(0.05,0.4), True,False, self.background,3, self.control_border)
 		self.player_threat_display = PlayerThreatWindow(Proportion2D(0.05,0.1), Proportion2D(0.05,0.8), self.background, self.control_border)
+		self.score_display = ScoreDisplayWindow()
 		# Maintain mapping of active sprites to the amount of time we should display them for
 		self.active_text_sprites = {}
-		self.child_windows = [self.up_control, self.down_control, self.down_reservoir, self.player_threat_display]
+		self.child_windows = [self.up_control, self.down_control, self.down_reservoir, self.player_threat_display, self.score_display]
 		
 	def set_character_display_reservoir_interface(self, controller):
 		controller.set_character_display_reservoir_interface(CharacterDisplayReservoirInterface(self))
@@ -32,6 +34,9 @@ class CharacterDisplay(Window):
 		
 	def set_character_display_text_interface(self, environment):
 		environment.set_character_display_text_interface(CharacterDisplayTextInterface(self))
+		
+	def set_score_display(self, score_keeper):
+		score_keeper.set_display(self.score_display)
 		
 	def reset(self):
 		self.up_control.set_bar(0)

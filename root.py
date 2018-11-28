@@ -63,6 +63,9 @@ class Root(TopLevelWindow):
 		
 	def set_character_display_text_interface(self, environment):
 		self.character_display_window.set_character_display_text_interface(environment)
+		
+	def set_score_display(self, score_display):
+		self.character_display_window.set_score_display(score_display)
 			
 	def reset(self):
 		for thing in [self.character_display_window]:

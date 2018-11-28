@@ -6,6 +6,7 @@ from environment import Environment
 from line import Line, LineInterface, LineStateInterface
 from controller import Controller, ControllerInterface
 from player_threat import PlayerThreat, PlayerThreatInterface
+from score_keeper import ScoreKeeper
 from main_menu import MainMenu
 
 # Manages the overall functioning of the game. Owns all the components, and makes sure 
@@ -19,10 +20,12 @@ class Core():
 		self.game_state = GameState()
 		self.player_threat = PlayerThreat(self.game_state)
 		self.line = Line(self.game_state)
+		line_state_interface = LineStateInterface(self.line)
 		self.controller = Controller(LineInterface(self.line))
 		controller_interface = ControllerInterface(self.controller)
 		self.player_controller = PlayerController(controller_interface)
-		self.environment = Environment(controller_interface, PlayerThreatInterface(self.player_threat), LineStateInterface(self.line))
+		self.environment = Environment(controller_interface, PlayerThreatInterface(self.player_threat), line_state_interface)
+		self.score_keeper = ScoreKeeper(line_state_interface)
 		self.main_menu = MainMenu(StartGameInterface(self))
 		
 		# Setup display stuff
@@ -32,6 +35,7 @@ class Core():
 		self.root_window.set_character_display_reservoir_interface(self.controller)
 		self.root_window.set_character_display_control_interface(self.player_controller)
 		self.root_window.set_character_display_text_interface(self.environment)
+		self.root_window.set_score_display(self.score_keeper)
 		
 		# State that we start at the Main Menu
 		self.root_window.switch_to_main_menu()
@@ -55,6 +59,7 @@ class Core():
 				self.player_controller.update()
 				self.controller.update()
 				self.line.update()
+				self.score_keeper.update()
 				self.environment.update()
 			# Enable us to show debug even when paused
 			self.root_window.update()
@@ -62,7 +67,8 @@ class Core():
 			if pyxel.btnp(pyxel.KEY_R):
 				to_be_reset = [
 					self.game_state, self.player_threat, self.line, self.controller, 
-					self.player_controller, self.environment, self.root_window
+					self.player_controller, self.environment, self.score_keeper, 
+					self.root_window
 				]
 				for thing in to_be_reset:
 					thing.reset()
