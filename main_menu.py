@@ -27,7 +27,11 @@ class MainMenu(Window):
 		self.num_options = len(self.options)
 		self.current_option = 0
 		self.credit_text = TextSprite("By Robin McFarland: @RjmcfDev", 7)
-		self.title = Sprite(Point(0,96), Size(67,18), 0, 0)
+		self.title = Sprite(Point(0,91), Size(67,23), 0, 0)
+		self.animated_col = 10
+		self.animated_col_list = [11,9,8,8,9]
+		self.current_animated_col_index = 0
+		self.frame_gap = 5
 		
 	def move_down(self):
 		self.current_option = (self.current_option + 1) % self.num_options
@@ -37,6 +41,11 @@ class MainMenu(Window):
 		
 	def select(self):
 		self.options[self.current_option].func(self)
+		
+	def update(self):
+		if not pyxel.frame_count % self.frame_gap:
+			self.current_animated_col_index = (self.current_animated_col_index + 1) % len(self.animated_col_list)
+			pyxel.pal(self.animated_col, self.animated_col_list[self.current_animated_col_index])
 		
 	def draw_before_children(self):
 		pyxel.rect(*self.corner, *self.corner.br_of(self.size), self.bg_col)

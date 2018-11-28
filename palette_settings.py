@@ -37,7 +37,7 @@ class Palette():
 game_palette = Palette("game")
 game_palette.c1 = 0x7e2553
 game_palette.c2 = 0x8b4226
-game_palette.c10 = 0xaa004d
+game_palette.c10 = 0x000000 # Animated colour
 game_palette.c11 = 0xdd9060
 game_palette.c14 = 0xffec27
 
