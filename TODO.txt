@@ -1,3 +1,4 @@
+Scores on Main Menu
 Update Tiler
 Refactor out colours into file so can easily see clashes
 
@@ -13,8 +14,6 @@ Modes
 		- Input name
 		- End game
 		- Dialogue
-	- Endless mode
-		- Score?
 
 ^^^^^ IDEAL FOR GAME JAM ^^^^^
 
