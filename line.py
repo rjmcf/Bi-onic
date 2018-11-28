@@ -1,6 +1,6 @@
 import pyxel
 from plugins.geometry import Point, Size
-from plugins.sprite import Sprite
+from plugins.sprite import Sprite, Anchor
 
 # Possible states for the line	
 class LineState():
@@ -97,7 +97,7 @@ class LineDisplay():
 		for index in range(len(self.segments)-1, -1, -1):
 			if self.segments[index] < -self.high_bound:
 				if index == len(self.segments)-1:
-					self.arrow_sprite.draw(Point(x,start.y - self.high_bound), True)
+					self.arrow_sprite.draw(Point(x,start.y - self.high_bound), Anchor.MIDDLE)
 			else:
 				pyxel.circ(x, start.y + self.segments[index], self.width, self.color)
 			x -= 1

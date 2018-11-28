@@ -1,6 +1,7 @@
 import pyxel
 from plugins.window import Window
 from plugins.geometry import Proportion2D
+from plugins.sprite import Anchor
 from bars import FillableBar
 from player_controller import DownAffector
 from player_threat import PlayerThreatWindow
@@ -59,7 +60,7 @@ class CharacterDisplay(Window):
 	def draw_before_children(self):
 		pyxel.rect(*self.corner, *self.corner.br_of(self.size), self.background)
 		for text_sprite in self.active_text_sprites:
-			text_sprite.draw(self.corner.translate(self.size.scale2D(Proportion2D(0.5,0.5))), True, True)		
+			text_sprite.draw(self.corner.translate(self.size.scale2D(Proportion2D(0.5,0.5))), Anchor.MIDDLE, Anchor.MIDDLE)		
 	
 # Interface for player_controller to use the control UI
 class CharacterDisplayControlInterface():

@@ -1,7 +1,7 @@
 import pyxel
 from plugins.geometry import Point, Proportion2D, Size
 from plugins.window import Window
-from plugins.sprite import Sprite, TextSprite
+from plugins.sprite import Sprite, TextSprite, Anchor
 
 class MainMenuOption(TextSprite):
 	def __init__(self, text, col, func):
@@ -49,11 +49,11 @@ class MainMenu(Window):
 		
 	def draw_before_children(self):
 		pyxel.rect(*self.corner, *self.corner.br_of(self.size), self.bg_col)
-		self.character_sprite.draw(self.corner.br_of(self.size.scale2D(Proportion2D(0.5,0.2))), True, True)
-		self.title.draw(self.corner.br_of(self.size.scale2D(Proportion2D(0.5,0.4))), True, True)
+		self.character_sprite.draw(self.corner.br_of(self.size.scale2D(Proportion2D(0.5,0.2))), Anchor.MIDDLE, Anchor.MIDDLE)
+		self.title.draw(self.corner.br_of(self.size.scale2D(Proportion2D(0.5,0.4))), Anchor.MIDDLE, Anchor.MIDDLE)
 		distance_down = 0.6
 		seperator = 0.1
 		for i, option in enumerate(self.options):
-			option.draw(self.corner.br_of(self.size.scale2D(Proportion2D(0.5,distance_down + i*seperator))), True, True, self.selected_col if i == self.current_option else None)
-		self.credit_text.draw(self.corner.br_of(Size(0, self.size.y * 0.95)))	
+			option.draw(self.corner.br_of(self.size.scale2D(Proportion2D(0.5,distance_down + i*seperator))), Anchor.MIDDLE, Anchor.MIDDLE, self.selected_col if i == self.current_option else None)
+		self.credit_text.draw(self.corner.br_of(Size(0, self.size.y)), Anchor.LEFT, Anchor.BOTTOM)	
 		
