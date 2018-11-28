@@ -4,7 +4,6 @@ from plugins.geometry import Size, Point
 from plugins.sprite import TextSprite
 from palette_settings import PALETTE
 from graph import GraphWindow
-from main_menu import MainMenuWindow
 from character_display import CharacterDisplay
 from resource_settings import RESOURCE
 from debug import ImageViewer, Tiler, PaletteViewer, GraphImager, TextImager
@@ -30,8 +29,7 @@ class Root(TopLevelWindow):
 		self.restart_text = TextSprite("Press R to Restart", 7)
 		self.paused_text = TextSprite("Paused...", 7)
 		self.game_windows = [self.character_display_window, self.graph_area]
-		self.main_menu_window = MainMenuWindow(main_menu)
-		self.main_menu_windows = [self.main_menu_window]
+		self.main_menu_windows = [main_menu]
 		if DEBUG:
 			self.debug_windows = [ImageViewer(self.palette), Tiler(), PaletteViewer(), GraphImager(), TextImager()]
 			if len(self.debug_windows) != len(set(self.debug_windows)):
@@ -65,9 +63,6 @@ class Root(TopLevelWindow):
 		
 	def set_character_display_text_interface(self, environment):
 		self.character_display_window.set_character_display_text_interface(environment)
-		
-	def set_main_menu_display(self, main_menu):
-		main_menu.set_display(self.main_menu_window)
 			
 	def reset(self):
 		for thing in [self.character_display_window]:

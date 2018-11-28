@@ -32,7 +32,6 @@ class Core():
 		self.root_window.set_character_display_reservoir_interface(self.controller)
 		self.root_window.set_character_display_control_interface(self.player_controller)
 		self.root_window.set_character_display_text_interface(self.environment)
-		self.root_window.set_main_menu_display(self.main_menu)
 		
 		# State that we start at the Main Menu
 		self.root_window.switch_to_main_menu()
