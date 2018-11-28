@@ -43,6 +43,8 @@ class CharacterDisplay(Window):
 		self.down_control.set_bar(0)
 		self.down_reservoir.set_bar(0)
 		self.active_text_sprites = {}
+		
+		self.score_display.reset()
 			
 	def empty_down_reservoir(self):
 		self.down_reservoir.set_bar(0)

@@ -12,9 +12,22 @@ class GameState():
 		self.game_playing = True
 		self.paused = False
 		self.game_mode = GameMode.MAIN_MENU
+		self.kill_player_delegates = []
 		
 	def start_game(self):
 		self.game_mode = GameMode.GAME
+		
+	def kill_player(self):
+		if self.game_playing:
+			self.game_playing = False
+			for delegate in self.kill_player_delegates:
+				delegate.execute()
+				
+	def add_kill_player_delegate(self, delegate):
+		self.kill_player_delegates.append(delegate)
+		
+	def is_game_playing(self):
+		return self.game_playing
 		
 	def exit_to_menu(self):
 		self.game_mode = GameMode.MAIN_MENU

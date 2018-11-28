@@ -38,7 +38,7 @@ class Line():
 		if self.current_height < -self.high_border:
 			self.line_state = LineState.STATE_HIGH
 		elif self.current_height > -self.low_bound:
-			self.game_state.game_playing = False
+			self.game_state.kill_player()
 		elif self.current_height > -self.low_border:
 			self.line_state = LineState.STATE_LOW
 		else:

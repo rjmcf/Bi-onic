@@ -6,7 +6,7 @@ from environment import Environment
 from line import Line, LineInterface, LineStateInterface
 from controller import Controller, ControllerInterface
 from player_threat import PlayerThreat, PlayerThreatInterface
-from score_keeper import ScoreKeeper
+from score_keeper import ScoreKeeper, ScoreKeeperEndGameDelegate
 from main_menu import MainMenu
 
 # Manages the overall functioning of the game. Owns all the components, and makes sure 
@@ -26,6 +26,7 @@ class Core():
 		self.player_controller = PlayerController(controller_interface)
 		self.environment = Environment(controller_interface, PlayerThreatInterface(self.player_threat), line_state_interface)
 		self.score_keeper = ScoreKeeper(line_state_interface)
+		self.game_state.add_kill_player_delegate(ScoreKeeperEndGameDelegate(self.score_keeper))
 		self.main_menu = MainMenu(StartGameInterface(self))
 		
 		# Setup display stuff
@@ -50,7 +51,7 @@ class Core():
 			quit() 
 						
 	def update_game_mode(self):
-		if self.game_state.game_playing:
+		if self.game_state.is_game_playing():
 			if pyxel.btnp(pyxel.KEY_P):
 				self.game_state.toggle_paused()
 				

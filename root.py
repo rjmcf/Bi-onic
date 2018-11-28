@@ -83,7 +83,7 @@ class Root(TopLevelWindow):
 		super(Root, self).draw()
 		
 		if self.game_state.in_game_mode():
-			if not self.game_state.game_playing:
+			if not self.game_state.is_game_playing():
 				self.restart_text.draw(Point(0,0))
 			elif self.game_state.paused:
 				self.paused_text.draw(Point(0,0))
