@@ -59,7 +59,10 @@ class TextSprite():
 		self.col = col
 		self.char_width = 4
 		self.char_height = 6
-		self.size = Size(len(text) * self.char_width, self.char_height)
+		self.calculate_sizes()
+		
+	def calculate_sizes(self):
+		self.size = Size(len(self.text) * self.char_width, self.char_height)
 		
 	def draw(self, at, anchor_x = Anchor.LEFT, anchor_y = Anchor.TOP, colour = None):
 		at = justify(at, self.size, anchor_x, anchor_y)

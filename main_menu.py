@@ -8,6 +8,21 @@ class MainMenuOption(TextSprite):
 		super(MainMenuOption, self).__init__(text, col)
 		self.func = func
 		
+class StatefulMainMenuOption(MainMenuOption):
+	def __init__(self, text, format, col, func):
+		super(StatefulMainMenuOption, self).__init__(text.format(format), col, func)
+		self.unformatted_text = text
+		self.format = format
+		
+	def update_format(self, format):
+		self.format = format
+	
+	def draw(self, at, anchor_x = Anchor.LEFT, anchor_y = Anchor.TOP, colour = None):
+		self.text = self.unformatted_text.format(self.format)
+		self.calculate_sizes()
+		super(StatefulMainMenuOption, self).draw(at, anchor_x, anchor_y, colour)
+		
+		
 # Represents both the logic and the display of the Main Menu.
 # Although not separating them is a break from my convention, the resulting code is much
 # neater in this case, and there's no need for syncing up what the various menu options 
@@ -20,18 +35,25 @@ class MainMenu(Window):
 		self.text_col = 7
 		self.selected_col = 14
 		self.character_sprite = Sprite(Point(0,0), Size(32,40), 0, 0)
+		self.tutorial_menu_option = StatefulMainMenuOption("Tutorial: {}", "Yes", self.text_col, lambda main_menu: main_menu.update_tutorial_state())
 		self.options = [
 			MainMenuOption("Start Game", self.text_col, lambda main_menu: main_menu.start_game_interface.start_game()),
+			self.tutorial_menu_option,
 			MainMenuOption("Quit", self.text_col, lambda main_menu: pyxel.quit())
 		]	
 		self.num_options = len(self.options)
 		self.current_option = 0
+		self.tutorial_active = True
 		self.credit_text = TextSprite("By Robin McFarland: @RjmcfDev", 7)
 		self.title = Sprite(Point(0,91), Size(67,23), 0, 0)
 		self.animated_col = 10
 		self.animated_col_list = [11,9,8,8,9]
 		self.current_animated_col_index = 0
 		self.frame_gap = 5
+		
+	def update_tutorial_state(self):
+		self.tutorial_active = not self.tutorial_active
+		self.tutorial_menu_option.update_format("Yes" if self.tutorial_active else "No")
 		
 	def move_down(self):
 		self.current_option = (self.current_option + 1) % self.num_options
