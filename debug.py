@@ -1,7 +1,7 @@
 import pyxel
 from plugins.window import Window
 from plugins.geometry import Point, Size, Vector, Proportion2D
-from plugins.sprite import TextSprite
+from plugins.sprite import Sprite, TextSprite
 from palette_settings import PALETTE
 from resource_settings import RESOURCE
 
@@ -125,15 +125,11 @@ class ImageViewer(DebugWindow):
 class Tiler(DebugWindow):
 	def __init__(self):
 		super(Tiler,self).__init__("Tiler", pyxel.KEY_T) 
-		self.img_bank = 0
-		self.source_top_left_x = 1*8
-		self.source_top_left_y = 6*8
-		self.source_width = 5*8 # WHYYY?
-		self.source_height = 5*8
-		self.repetitions_x = 5
-		self.repititions_y = 2
-		self.display_top_left_x = 15
-		self.display_top_left_y = 20
+		self.sprite = Sprite(Point(1*8,6*8), Size(5*8,5*8), 0)
+		self.source_size = self.sprite.source_size
+		self.repetitions_x = 3
+		self.repetitions_y = 3
+		self.display_top_left = Vector(20,20)
 	
 	def update(self):
 		super(Tiler,self).update()
@@ -142,13 +138,5 @@ class Tiler(DebugWindow):
 			
 	def draw_before_children(self):
 		for col in range(self.repetitions_x):
-			for row in range(self.repititions_y):
-				pyxel.blt(self.x + self.display_top_left_x + col * self.source_width,
-						  self.y + self.display_top_left_y + row * self.source_height,
-						  self.img_bank,
-						  self.source_top_left_x,
-						  self.source_top_left_y,
-						  self.source_top_left_x + self.source_width,
-						  self.source_top_left_y + self.source_height)
-	
-	
+			for row in range(self.repetitions_y):
+				self.sprite.draw(self.corner.br_of(self.source_size.scale2D(Vector(col,row))).translate(self.display_top_left))
