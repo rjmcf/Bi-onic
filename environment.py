@@ -14,12 +14,20 @@ class Environment():
 		self.count = randint(200, 300)
 		
 		# Possible events that exclusively push the line down
-		self.DOWN_EVENTS = {"High Exertion" : SlowStartStopAffector(1300, 100, False)}
+		self.DOWN_EVENTS = {
+			"Chasing Criminal" : SlowStartStopAffector(1400, 300, False),
+			"No Time To Rest!" : SlowStartStopAffector(900, 400, False),
+			"Difficult Fight"  : SlowStartStopAffector(1500, 100, False)
+		}
 		# Weight assigned to down events in weighted random selection
 		self.num_down = 10
 		
 		# Possible events that exclusively push the line up
-		self.UP_EVENTS = {"Time Pressure" : SlowStartStopAffector(1500, 300, True)}
+		self.UP_EVENTS = {
+			"Time Pressure"                : SlowStartStopAffector(1500, 300, True),
+			"Exposure To High Temperature" : SlowStartStopAffector(1200, 400, True),
+			"Refuelling"                   : SlowStartStopAffector(1400, 200, True)
+		}
 		# Weight assigned to up events in weighted random selection
 		self.num_up = 10
 		
@@ -39,9 +47,9 @@ class Environment():
 		if current_line_state == LineState.STATE_NORMAL:
 			self.threat_interface.adjust_threat_percent(-0.3 / 100)
 		elif current_line_state == LineState.STATE_HIGH:
-			self.threat_interface.adjust_threat_percent(0.1 / 100)
+			self.threat_interface.adjust_threat_percent(0.2 / 100)
 		elif current_line_state == LineState.STATE_LOW:
-			self.threat_interface.adjust_threat_percent(0.5 / 100)
+			self.threat_interface.adjust_threat_percent(1 / 100)
 			
 		self.count -= 1
 		if not self.count:
@@ -69,7 +77,7 @@ class Environment():
 			
 	# Time between events
 	def set_timer(self):
-		return randint(400, 800)
+		return randint(300, 600)
 			
 			
 # Affector that eases in and out of an effect, pushing either up or down

@@ -67,7 +67,12 @@ class DownAffector(TimeDependentAffector):
 	def __init__(self, lifetime, scale):
 		super(DownAffector, self).__init__(lifetime)
 		self.scale = scale
+		self.remaining_affect_scale = 1 / 2000
 		
+	def remaining_affect(self):
+		t = self.time_elapsed / self.lifetime
+		return self.scale * self.remaining_affect_scale * (4 * t*t*t*t*t - 15 * t*t*t*t + 20 * t*t*t - 10 * t*t + 1)
+			
 	def f(self, time):
 		time = time / self.lifetime
 		return - self.scale / self.lifetime * time * (1 - time) * (1 - time) * (1 - time)

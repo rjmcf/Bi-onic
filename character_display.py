@@ -88,10 +88,8 @@ class CharacterDisplayReservoirInterface():
 	def empty_down_reservoir(self):
 		self.character_display.empty_down_reservoir()
 		
-	def add_down_reservoir_amount(self, affector):
-		if (isinstance(affector, DownAffector)):
-			ticks_left = affector.lifetime + 1 - affector.time_elapsed
-			self.character_display.add_down_reservoir_amount(ticks_left / 1000)
+	def add_down_reservoir_amount(self, amount):
+		self.character_display.add_down_reservoir_amount(amount)
 			
 # Interface for the environment to display descriptions of active events
 class CharacterDisplayTextInterface():

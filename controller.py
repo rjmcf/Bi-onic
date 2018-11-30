@@ -22,7 +22,7 @@ class Controller():
 				
 		self.character_display_reservoir_handle.empty_down_reservoir()
 		for affector in self.affectors:
-			self.character_display_reservoir_handle.add_down_reservoir_amount(affector)
+			self.character_display_reservoir_handle.add_down_reservoir_amount(affector.remaining_affect())
 			
 	def reset(self):
 		self.reservoir = 0
@@ -57,6 +57,10 @@ class TimeDependentAffector():
 	def get_effect_for_this_tick(self):
 		self.time_elapsed += 1
 		return self.f(self.time_elapsed)
+		
+	# Can be used to work out how much for this affector will deliver before finishing
+	def remaining_affect(self):
+		return 0
 		
 	# Can be set or overrided to determine how the effect changes over time.
 	def f(self, time):

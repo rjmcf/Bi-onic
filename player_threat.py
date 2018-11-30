@@ -16,7 +16,7 @@ class PlayerThreat():
 		self.display.set_player_threat_percent(self.player_threat_percent)
 		
 	def update(self):
-		if self.player_threat_percent == 1:
+		if self.player_threat_percent >= 1:
 			self.game_state.kill_player()
 			
 	def reset(self):
