@@ -28,16 +28,16 @@ class StatefulMainMenuOption(MainMenuOption):
 # neater in this case, and there's no need for syncing up what the various menu options 
 # can be across two different classes.
 class MainMenu(Window):
-	def __init__(self, start_game_interface):
+	def __init__(self, core_interface):
 		super(MainMenu, self).__init__(Point(0,0), Proportion2D(1,1))	
-		self.start_game_interface = start_game_interface
+		self.core_interface = core_interface
 		self.bg_col = 0
 		self.text_col = 7
 		self.selected_col = 14
 		self.character_sprite = Sprite(Point(0,0), Size(32,40), 0, 0)
 		self.tutorial_menu_option = StatefulMainMenuOption("Tutorial: {}", "Yes", self.text_col, lambda main_menu: main_menu.update_tutorial_state())
 		self.options = [
-			MainMenuOption("Start Game", self.text_col, lambda main_menu: main_menu.start_game_interface.start_game()),
+			MainMenuOption("Start Game", self.text_col, lambda main_menu: main_menu.start_selected()),
 			self.tutorial_menu_option,
 			MainMenuOption("Quit", self.text_col, lambda main_menu: pyxel.quit())
 		]	
@@ -54,6 +54,12 @@ class MainMenu(Window):
 	def update_tutorial_state(self):
 		self.tutorial_active = not self.tutorial_active
 		self.tutorial_menu_option.update_format("Yes" if self.tutorial_active else "No")
+		
+	def start_selected(self):
+		if self.tutorial_active:
+			self.core_interface.start_tutorial()
+		else:
+			self.core_interface.start_game()
 		
 	def move_down(self):
 		self.current_option = (self.current_option + 1) % self.num_options

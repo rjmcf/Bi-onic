@@ -1,7 +1,8 @@
 # Represents Game Modes that the game can be in
 class GameMode():
 	MAIN_MENU = 0
-	GAME = 1
+	TUTORIAL = 1
+	GAME = 2
 
 # Records the current state of the game including:
 #	Our current mode
@@ -16,6 +17,9 @@ class GameState():
 		
 	def start_game(self):
 		self.game_mode = GameMode.GAME
+		
+	def start_tutorial(self):
+		self.game_mode = GameMode.TUTORIAL
 		
 	def kill_player(self):
 		if self.game_playing:
@@ -32,11 +36,14 @@ class GameState():
 	def exit_to_menu(self):
 		self.game_mode = GameMode.MAIN_MENU
 		
-	def in_game_mode(self):
-		return self.game_mode == GameMode.GAME
-		
 	def in_main_menu_mode(self):
 		return self.game_mode == GameMode.MAIN_MENU
+		
+	def in_tutorial(self):
+		return self.game_mode == GameMode.TUTORIAL
+		
+	def in_game_mode(self):
+		return self.game_mode == GameMode.GAME
 		
 	def toggle_paused(self):
 		self.paused = not self.paused

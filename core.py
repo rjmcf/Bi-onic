@@ -8,6 +8,7 @@ from controller import Controller, ControllerInterface
 from player_threat import PlayerThreat, PlayerThreatInterface
 from score_keeper import ScoreKeeper, ScoreKeeperEndGameDelegate
 from main_menu import MainMenu
+from tutorial import Tutorial
 
 # Manages the overall functioning of the game. Owns all the components, and makes sure 
 # they are updated correctly.
@@ -27,7 +28,9 @@ class Core():
 		self.environment = Environment(controller_interface, PlayerThreatInterface(self.player_threat), line_state_interface)
 		self.score_keeper = ScoreKeeper(line_state_interface)
 		self.game_state.add_kill_player_delegate(ScoreKeeperEndGameDelegate(self.score_keeper))
-		self.main_menu = MainMenu(StartGameInterface(self))
+		core_interface = CoreInterface(self)
+		self.main_menu = MainMenu(core_interface)
+		self.tutorial = Tutorial(core_interface)
 		
 		# Setup display stuff
 		self.root_window = Root(self.game_state, self.main_menu)
@@ -37,6 +40,7 @@ class Core():
 		self.root_window.set_character_display_control_interface(self.player_controller)
 		self.root_window.set_character_display_text_interface(self.environment)
 		self.root_window.set_score_display(self.score_keeper)
+		self.root_window.set_tutorial_display(self.tutorial)
 		
 		# State that we start at the Main Menu
 		self.root_window.switch_to_main_menu()
@@ -44,6 +48,8 @@ class Core():
 	def update(self):		
 		if self.game_state.in_game_mode():	
 			self.update_game_mode()
+		elif self.game_state.in_tutorial():
+			self.update_tutorial_mode()
 		elif self.game_state.in_main_menu_mode():
 			self.update_main_menu_mode()
 		else:
@@ -73,6 +79,9 @@ class Core():
 				]
 				for thing in to_be_reset:
 					thing.reset()
+					
+	def update_tutorial_mode(self):
+		self.tutorial.update()
 	
 	def update_main_menu_mode(self):
 		if pyxel.btnp(pyxel.KEY_UP):
@@ -88,13 +97,21 @@ class Core():
 		self.game_state.start_game()
 		self.root_window.switch_to_game()
 		
+	def start_tutorial(self):
+		self.game_state.start_tutorial()
+		self.root_window.switch_to_tutorial()
+		self.tutorial.start()
+		
 	def start(self):
 		pyxel.run(self.update, self.root_window.draw)
 		
 # Interface allowing MainMenu to start the game
-class StartGameInterface:
+class CoreInterface:
 	def __init__(self, core):
 		self.core = core
 		
 	def start_game(self):
 		self.core.start_game()
+		
+	def start_tutorial(self):
+		self.core.start_tutorial()

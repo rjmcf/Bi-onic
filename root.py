@@ -5,6 +5,7 @@ from plugins.sprite import TextSprite
 from palette_settings import PALETTE
 from graph import GraphWindow
 from character_display import CharacterDisplay
+from tutorial import TutorialWindow
 from resource_settings import RESOURCE
 from debug import ImageViewer, Tiler, PaletteViewer, GraphImager, TextImager
 
@@ -30,6 +31,8 @@ class Root(TopLevelWindow):
 		self.paused_text = TextSprite("Paused...", 7)
 		self.game_windows = [self.character_display_window, self.graph_area]
 		self.main_menu_windows = [main_menu]
+		self.tutorial_display = TutorialWindow()
+		self.tutorial_windows = [self.tutorial_display]
 		if DEBUG:
 			self.debug_windows = [ImageViewer(self.palette), Tiler(), PaletteViewer(), GraphImager(), TextImager()]
 			if len(self.debug_windows) != len(set(self.debug_windows)):
@@ -48,6 +51,9 @@ class Root(TopLevelWindow):
 		
 	def switch_to_main_menu(self):
 		self.windows = self.main_menu_windows
+		
+	def switch_to_tutorial(self):
+		self.windows = self.tutorial_windows
 			
 	def set_player_threat_display(self, player_threat):
 		self.character_display_window.set_player_threat_display(player_threat)
@@ -66,6 +72,9 @@ class Root(TopLevelWindow):
 		
 	def set_score_display(self, score_display):
 		self.character_display_window.set_score_display(score_display)
+		
+	def set_tutorial_display(self, tutorial):
+		tutorial.set_display(self.tutorial_display)
 			
 	def reset(self):
 		for thing in [self.character_display_window]:
