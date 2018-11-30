@@ -1,5 +1,3 @@
-Fill Reservoir depending on how much effect is left
-
 Update Tiler
 Refactor out colours into file so can easily see clashes
 
