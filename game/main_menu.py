@@ -38,7 +38,7 @@ class MainMenu(Window):
 		self.tutorial_menu_option = StatefulMainMenuOption("Tutorial: {}", "Yes", self.text_col, lambda main_menu: main_menu.update_tutorial_state())
 		self.options = [
 			MainMenuOption("Start Game", self.text_col, lambda main_menu: main_menu.start_game_interface.start_game()),
-			self.tutorial_menu_option,
+			#self.tutorial_menu_option,
 			MainMenuOption("Quit", self.text_col, lambda main_menu: pyxel.quit())
 		]	
 		self.num_options = len(self.options)
