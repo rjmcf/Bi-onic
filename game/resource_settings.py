@@ -1,3 +1,3 @@
 # Defines resources to be loaded
 
-RESOURCE = "assets/bionic_resources1.pyxel"
+RESOURCE = "assets/bionic_resources.pyxres"
