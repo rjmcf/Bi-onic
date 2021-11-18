@@ -1,7 +1,7 @@
 import pyxel
 from plugins.window import Window
 from plugins.geometry import Point, Size, Vector, Proportion2D
-from plugins.sprite import Sprite, TextSprite
+from plugins.sprite import Sprite, TextSprite, Anchor
 from palette_settings import PALETTE
 from resource_settings import RESOURCE
 
@@ -32,7 +32,7 @@ class TextImager(DebugWindow):
 	def draw_before_children(self):	
 		pyxel.line(*self.size.scale2D(Size(0.5,0)), *self.size.scale2D(Size(0.5,1)), 7)
 		pyxel.line(*self.size.scale2D(Size(0,0.5)), *self.size.scale2D(Size(1,0.5)), 7)
-		self.text_sprite.draw(self.corner.br_of(self.size.scale2D(Size(0.5,0.5))), True, True)
+		self.text_sprite.draw(self.corner.br_of(self.size.scale2D(Size(0.5,0.5))), Anchor.MIDDLE, Anchor.MIDDLE)
 		
 		
 # Shows a representation of an affector, input (0,1), output (0,1)
@@ -58,8 +58,8 @@ class GraphImager(DebugWindow):
 		return -self.g(x)
 		
 	def draw_before_children(self):
-		pyxel.rectb(*self.graph_tl, *self.graph_tl.br_of(self.graph_size), 7)
-		pyxel.rectb(*self.graph_tl.br_of(Point(0, self.graph_size.y)), *self.graph_tl.br_of(self.graph_size.scale2D(Size(1,2))), 7)
+		pyxel.rectb(*self.graph_tl, *self.graph_size, 7)
+		pyxel.rectb(*self.graph_tl.br_of(Point(0, self.graph_size.y)), *self.graph_size.scale2D(Size(1,2)), 7)
 		self.draw_func_with_col(self.f, 8)
 		self.draw_func_with_col(self.g, 9)
 		self.draw_func_with_col(self.h, 10)
@@ -87,7 +87,7 @@ class PaletteViewer(DebugWindow):
 		col_val = PALETTE.get_palette()[col]
 		hex_col = "#{:06X}".format(col_val)
 
-		pyxel.rect(x, y, x + 8, y + 8, col)
+		pyxel.rect(x, y, 8, 8, col)
 		pyxel.text(x + 16, y + 1, hex_col, 7)
 		pyxel.text(x + 3 - (col // 10) * 2, y + 2, "{}".format(col), 7 if col < 6 else 0)
 		
@@ -118,7 +118,7 @@ class ImageViewer(DebugWindow):
 		pyxel.text(*self.corner.br_of(Size(0,6)), "Showing from (" + str(self.source_top_left.x) + ", " + str(self.source_top_left.y) + ") to (" + str(self.source_top_left.x + self.source_sections.x) + ", " + str(self.source_top_left.y + self.source_sections.y) + ") of image bank " + str(self.img_bank), 7)
 		pyxel.text(*self.corner.br_of(Size(0,12)), "Using palette: {}".format(self.palette.name), 7)
 		pyxel.blt(*self.corner.translate(self.display_top_left), self.img_bank, *self.source_top_left.scale(8), *self.source_top_left.add(self.source_sections).scale(8))
-		pyxel.rectb(*self.corner.translate(self.display_top_left.add(Vector(-1,-1))), *self.corner.translate(self.display_top_left).br_of(self.source_sections.scale(8)), 7)
+		pyxel.rectb(*self.corner.translate(self.display_top_left.add(Vector(-1,-1))), *self.source_sections.scale(8), 7)
 		
 # Takes an image from the resource and tiles it as wide and tall as you want.
 # Can hot-reload the image using the Enter key.	

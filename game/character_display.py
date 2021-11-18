@@ -65,7 +65,7 @@ class CharacterDisplay(Window):
 				del self.active_text_sprites[text_sprite]
 			
 	def draw_before_children(self):
-		pyxel.rect(*self.corner, *self.corner.br_of(self.size), self.background)
+		pyxel.rect(*self.corner, *self.size, self.background)
 		for text_sprite in self.active_text_sprites:
 			text_sprite.draw(self.corner.translate(self.size.scale2D(Proportion2D(0.5,0.5))), Anchor.MIDDLE, Anchor.MIDDLE)		
 	

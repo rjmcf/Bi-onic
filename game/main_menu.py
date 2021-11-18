@@ -70,7 +70,7 @@ class MainMenu(Window):
 			pyxel.pal(self.animated_col, self.animated_col_list[self.current_animated_col_index])
 		
 	def draw_before_children(self):
-		pyxel.rect(*self.corner, *self.corner.br_of(self.size), self.bg_col)
+		pyxel.rect(*self.corner, *self.size, self.bg_col)
 		self.character_sprite.draw(self.corner.br_of(self.size.scale2D(Proportion2D(0.5,0.2))), Anchor.MIDDLE, Anchor.MIDDLE)
 		self.title.draw(self.corner.br_of(self.size.scale2D(Proportion2D(0.5,0.4))), Anchor.MIDDLE, Anchor.MIDDLE)
 		distance_down = 0.6

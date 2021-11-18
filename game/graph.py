@@ -10,7 +10,7 @@ class DangerRegion(Window):
 		self.colour = colour
 		
 	def draw_before_children(self):
-		pyxel.rect(*self.corner, *self.corner.br_of(self.size), self.colour)
+		pyxel.rect(*self.corner, *self.size, self.colour)
 
 # The window within which the graph is drawn. 
 class GraphWindow(Window):
@@ -37,7 +37,7 @@ class GraphWindow(Window):
 		super(GraphWindow, self).update()
 		
 	def draw_before_children(self):
-		pyxel.rect(*self.corner, *self.corner.br_of(self.size), self.colour)
+		pyxel.rect(*self.corner, *self.size, self.colour)
 		
 	def draw_after_children(self):
 		self.line_display.draw(self.corner.br_of(self.size.scale2D(self.start_prop)))

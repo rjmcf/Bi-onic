@@ -30,18 +30,18 @@ class FillableBar(Window):
 		return self.percent_full >= 1
 		
 	def draw_before_children(self):
-		pyxel.rect(*self.corner, *self.corner.br_of(self.size), self.back_colour)
+		pyxel.rect(*self.corner, *self.size, self.back_colour)
 		if self.is_vertical:
 			top_left_x = self.corner.x
 			top_left_y = self.corner.y if self.fill_positive else self.corner.y + (1-self.percent_full) * self.size.y
-			bottom_right_x = self.corner.x + self.size.x
-			bottom_right_y = self.corner.y + self.percent_full * self.size.y if self.fill_positive else self.corner.y + self.size.y
+			width = self.size.x
+			height = self.percent_full * self.size.y
 		else:
-			top_left_x = self.corner.x if self.fill_positive else self.corner.x + (1-self.percent_full) * self.width
+			top_left_x = self.corner.x if self.fill_positive else self.corner.x + (1-self.percent_full) * self.size.x
 			top_left_y = self.corner.y 
-			bottom_right_x = self.corner.x + self.percent_full * self.width if self.fill_positive else self.corner.x + self.width
-			bottom_right_y = self.corner.y + self.size.y
-		pyxel.rect(top_left_x, top_left_y, bottom_right_x, bottom_right_y, self.fill_colour)
+			width = self.percent_full * self.size.x
+			height = self.size.y
+		pyxel.rect(top_left_x, top_left_y, width, height, self.fill_colour)
 		
 		if self.border_colour != None:
-			pyxel.rectb(*self.corner, *self.corner.br_of(self.size), self.border_colour)
+			pyxel.rectb(*self.corner, *self.size, self.border_colour)
