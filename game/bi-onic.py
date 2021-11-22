@@ -1,9 +1,9 @@
 from core import Core
 
 class App:
-	def __init__(self):
+	def __init__(self) -> None:
 		self.core = Core()
-		self.core.start()	
+		self.core.start()
 
 App()
 

@@ -7,20 +7,21 @@ from graph import GraphWindow
 from character_display import CharacterDisplay
 from resource_settings import RESOURCE
 from debug import ImageViewer, Tiler, PaletteViewer, GraphImager, TextImager
+from typing import Any
 
 # Determines whether we will allow DEBUG screens to be shown
 DEBUG = True
-	
+
 # Represents the parent window that contains all the others. Controls switching of windows
-# for debug and menu purposes. 
+# for debug and menu purposes.
 # Makes sure that all child windows get told to draw at the right time
 class Root(TopLevelWindow):
-	def __init__(self, game_state, main_menu):
+	def __init__(self, game_state : Any, main_menu : Any) -> None:
 		super(Root, self).__init__(Size(255,160))
 		self.caption = "Bi-onic"
 		self.palette = PALETTE
 		self.game_state = game_state
-		# This line needs to come before any Pyxel imports are used, otherwise they can't 
+		# This line needs to come before any Pyxel imports are used, otherwise they can't
 		# be imported
 		pyxel.init(*self.size, caption=self.caption, palette=self.palette.get_palette())
 		pyxel.load(RESOURCE)
@@ -35,57 +36,55 @@ class Root(TopLevelWindow):
 			if len(self.debug_windows) != len(set(self.debug_windows)):
 				print("debug windows with duplicate keys detected")
 				quit()
-				
-	def toggle_debug_window(self, window):
-		if window in self.windows:
-			self.windows = self.previous_windows
-		else:
+
+	def toggle_debug_window(self, window : Any) -> None:
+		if window not in self.windows:
 			self.previous_windows = self.windows
 			self.windows = [window]
-			
-	def switch_to_game(self):
+		else:
+			self.windows = self.previous_windows			
+
+	def switch_to_game(self) -> None:
 		self.windows = self.game_windows
-		
-	def switch_to_main_menu(self):
+
+	def switch_to_main_menu(self) -> None:
 		self.windows = self.main_menu_windows
-			
-	def set_player_threat_display(self, player_threat):
+
+	def set_player_threat_display(self, player_threat : Any) -> None:
 		self.character_display_window.set_player_threat_display(player_threat)
-		
-	def set_line_display(self, line):
+
+	def set_line_display(self, line : Any) -> None:
 		self.graph_area.set_line_display(line)
-		
-	def set_character_display_reservoir_interface(self, controller):
+
+	def set_character_display_reservoir_interface(self, controller : Any) -> None:
 		self.character_display_window.set_character_display_reservoir_interface(controller)
-		
-	def set_character_display_control_interface(self, player_controller):
+
+	def set_character_display_control_interface(self, player_controller : Any) -> None:
 		self.character_display_window.set_character_display_control_interface(player_controller)
-		
-	def set_character_display_text_interface(self, environment):
+
+	def set_character_display_text_interface(self, environment : Any) -> None:
 		self.character_display_window.set_character_display_text_interface(environment)
-		
-	def set_score_display(self, score_display):
+
+	def set_score_display(self, score_display : Any) -> None:
 		self.character_display_window.set_score_display(score_display)
-			
-	def reset(self):
+
+	def reset(self) -> None:
 		for thing in [self.character_display_window]:
 			thing.reset()
-			
-	def update(self):
+
+	def update(self) -> None:
 		super(Root, self).update()
 		if DEBUG:
 			for debug_window in self.debug_windows:
 				if pyxel.btnp(debug_window.toggle_key):
-					self.toggle_debug_window(debug_window)		
-			
-	def draw(self):
+					self.toggle_debug_window(debug_window)
+
+	def draw(self) -> None:
 		pyxel.cls(0)
 		super(Root, self).draw()
-		
+
 		if self.game_state.in_game_mode():
 			if not self.game_state.is_game_playing():
 				self.restart_text.draw(Point(0,0))
 			elif self.game_state.paused:
 				self.paused_text.draw(Point(0,0))
-		
-		
