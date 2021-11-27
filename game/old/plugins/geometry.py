@@ -1,4 +1,4 @@
-from typing import Any, Callable, Generic, Iterator, TypeVar, Union
+from typing import Callable, Generic, Iterator, TypeVar, Union
 
 # Represents something that has an x and a y component, which can be unpacked using *
 # to get (x,y)

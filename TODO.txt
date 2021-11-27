@@ -1,12 +1,17 @@
+Refactor Philosophy:
+	- Globally important things (e.g. GameState) go in a globally accessible place
+	- Otherwise, if thing A is controlled by thing B, B constructs and manages A
+
+
 Refactor out colours into file so can easily see clashes
 
 Music and Sound
-	
+
 Tutorial
 
 Show Character in Display
 	- Respond to threat level
-	
+
 Modes
 	- Story
 		- Input name
