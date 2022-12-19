@@ -21,7 +21,7 @@ class PlayerController():
 			self.add_up_control(0.02)
 		elif pyxel.btn(pyxel.KEY_DOWN):
 			self.add_down_control(0.02)
-		elif pyxel.btnp(pyxel.KEY_ENTER):
+		elif pyxel.btnp(pyxel.KEY_RETURN):
 			self.administer()
 
 		self.character_display_control_interface.set_up_control(self.up_percent)

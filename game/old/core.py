@@ -80,7 +80,7 @@ class Core():
 			self.main_menu.move_up()
 		elif pyxel.btnp(pyxel.KEY_DOWN):
 			self.main_menu.move_down()
-		elif pyxel.btnp(pyxel.KEY_ENTER):
+		elif pyxel.btnp(pyxel.KEY_RETURN):
 			self.main_menu.select()
 		# Allow debug windows still
 		self.root_window.update()

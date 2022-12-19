@@ -6,7 +6,7 @@ class Palette():
 	def __init__(self, name : str) -> None:
 		self.name = name
 
-		self.internal_palette : list[int] = pyxel.DEFAULT_PALETTE
+		self.internal_palette : list[int] = [0 for i in range(16)]#pyxel.DEFAULT_PALETTE
 
 	# Let's you overwrite a colour in the palette
 	def __setitem__(self, index : int, item : int) -> None:
@@ -16,7 +16,7 @@ class Palette():
 		self.internal_palette[index] = item
 
 	# Used when we want to actually use the palette to render something
-	def get_palette(self) -> list[int]:
+	def get_palette(self):
 		return self.internal_palette
 
 # The standard palette to be used while playing the game

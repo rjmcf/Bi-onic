@@ -18,12 +18,11 @@ DEBUG = True
 class Root(TopLevelWindow):
 	def __init__(self, game_state : Any, main_menu : Any) -> None:
 		super(Root, self).__init__(Size(255,160))
-		self.caption = "Bi-onic"
 		self.palette = PALETTE
 		self.game_state = game_state
 		# This line needs to come before any Pyxel imports are used, otherwise they can't
 		# be imported
-		pyxel.init(*self.size, caption=self.caption, palette=self.palette.get_palette())
+		pyxel.init(*self.size)
 		pyxel.load(RESOURCE)
 		self.character_display_window = CharacterDisplay()
 		self.graph_area = GraphWindow(Point(0,0), self.size)
