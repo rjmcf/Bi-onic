@@ -1,5 +1,5 @@
 from plugins.geometry import Point, Proportion2D, Size
-from typing import Optional
+from typing import List, Optional
 
 # Represents a game-window in code.
 # Defines itself in terms of proportions of its parent that it takes up,
@@ -14,7 +14,7 @@ class Window():
 		if parent_corner is not None and parent_size is not None:
 			self.calculate_dimensions(parent_corner, parent_size)
 
-		self.child_windows : list[Window] = []
+		self.child_windows : List[Window] = []
 
 	def calculate_dimensions(self, parent_corner : Point, parent_size : Size) -> None:
 		self.corner = parent_corner.br_of(parent_size.scale2D(self.corner_prop))
@@ -43,7 +43,7 @@ class Window():
 class TopLevelWindow():
 	def __init__(self, size : Size) -> None:
 		self.size = size
-		self.windows : list[Window] = []
+		self.windows : List[Window] = []
 
 	def update(self) -> None:
 		for window in self.windows:

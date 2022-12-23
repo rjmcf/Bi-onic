@@ -8,7 +8,7 @@ from controller import Controller, ControllerInterface
 from player_threat import PlayerThreat, PlayerThreatInterface
 from score_keeper import ScoreKeeper, ScoreKeeperEndGameDelegate
 from main_menu import MainMenu
-from typing import Any
+from typing import Any, List
 
 # Manages the overall functioning of the game. Owns all the components, and makes sure
 # they are updated correctly.
@@ -67,7 +67,7 @@ class Core():
 			self.root_window.update()
 		else:
 			if pyxel.btnp(pyxel.KEY_R):
-				to_be_reset : list[Any] = [
+				to_be_reset : List[Any] = [
 					self.game_state, self.player_threat, self.line, self.controller,
 					self.player_controller, self.environment, self.score_keeper,
 					self.root_window

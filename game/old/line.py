@@ -2,7 +2,7 @@ import pyxel
 from plugins.enum import Enum
 from plugins.geometry import Point, Size
 from plugins.sprite import Sprite, Anchor
-from typing import Any
+from typing import Any, List
 
 # Possible states for the line
 class LineState(Enum):
@@ -80,7 +80,7 @@ class LineDisplay():
 		self.width = width
 		self.arrow_sprite = Sprite(Point(32,0), Size(7,8), 0, 0)
 		# Record segments to be drawn as the heights they should be drawn at
-		self.segments : list[float] = []
+		self.segments : List[float] = []
 
 	def reset(self) -> None:
 		self.segments = []

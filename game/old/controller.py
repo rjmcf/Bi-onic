@@ -1,5 +1,5 @@
 import pyxel
-from typing import Any
+from typing import Any, List
 
 # Represents something that can affect the graphs, whose effect changes with time.
 class TimeDependentAffector():
@@ -36,7 +36,7 @@ class Controller():
 		self.line_interface = line_interface
 		self.reservoir = 0
 		# List of things that are currently affecting the graph.
-		self.affectors : list[TimeDependentAffector] = []
+		self.affectors : List[TimeDependentAffector] = []
 
 	def set_character_display_reservoir_interface(self, character_display_reservoir_interface : Any) -> None:
 		self.character_display_reservoir_handle = character_display_reservoir_interface

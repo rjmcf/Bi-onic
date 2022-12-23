@@ -1,5 +1,6 @@
 from plugins.delegate import Delegate
 from plugins.enum import Enum
+from typing import List
 
 # Represents Game Modes that the game can be in
 class GameMode(Enum):
@@ -15,7 +16,7 @@ class GameState():
 		self.game_playing = True
 		self.paused = False
 		self.game_mode = GameMode(GameMode.MAIN_MENU)
-		self.kill_player_delegates : list[Delegate] = []
+		self.kill_player_delegates : List[Delegate] = []
 
 	def start_game(self) -> None:
 		self.game_mode = GameMode(GameMode.GAME)

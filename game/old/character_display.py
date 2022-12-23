@@ -6,7 +6,7 @@ from bars import FillableBar
 from player_controller import DownAffector
 from player_threat import PlayerThreatWindow
 from score_keeper import ScoreDisplayWindow
-from typing import Any
+from typing import Any, Dict
 
 # The window that shows the 'HUD' elements, including:
 # 	Control UI
@@ -24,7 +24,7 @@ class CharacterDisplay(Window):
 		self.player_threat_display = PlayerThreatWindow(Proportion2D(0.05,0.1), Proportion2D(0.05,0.8), self.background, self.control_border)
 		self.score_display = ScoreDisplayWindow()
 		# Maintain mapping of active sprites to the amount of time we should display them for
-		self.active_text_sprites : dict[TextSprite, int] = {}
+		self.active_text_sprites : Dict[TextSprite, int] = {}
 		self.child_windows = [self.up_control, self.down_control, self.down_reservoir, self.player_threat_display, self.score_display]
 
 	def set_character_display_reservoir_interface(self, controller : Any) -> None:

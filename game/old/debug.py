@@ -111,7 +111,7 @@ class ImageViewer(DebugWindow):
 
 	def update(self) -> None:
 		super(ImageViewer, self).update()
-		if pyxel.btnp(pyxel.KEY_ENTER):
+		if pyxel.btnp(pyxel.KEY_RETURN):
 			pyxel.load(RESOURCE)
 
 	def draw_before_children(self) -> None:
@@ -134,7 +134,7 @@ class Tiler(DebugWindow):
 
 	def update(self) -> None:
 		super(Tiler,self).update()
-		if pyxel.btnp(pyxel.KEY_ENTER):
+		if pyxel.btnp(pyxel.KEY_RETURN):
 			pyxel.load(RESOURCE)
 
 	def draw_before_children(self) -> None:
