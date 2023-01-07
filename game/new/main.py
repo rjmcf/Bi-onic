@@ -1,8 +1,9 @@
 import pyxel
+from windows import Window
 
 class App:
     def __init__(self) -> None:
-        pyxel.init(255,160)
+        pyxel.init(256,160)
         pyxel.load("assets/bionic_resources.pyxres")
 
         pyxel.run(self.update, self.draw)
@@ -12,6 +13,9 @@ class App:
 
     def draw(self) -> None:
         pyxel.cls(0)
+
+        for window in Window.get_windows():
+            window.draw()
         
 App()
 
